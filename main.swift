@@ -1,7 +1,7 @@
 import Foundation
 
-game = Game()
-p = Piece()
+var game = Game()
+var p = Piece()
 
 var color : String
 var heigh : String
@@ -16,10 +16,10 @@ print("Bienvenue dans le jeu QUARTO \n Veuillez choisir vos règles entre simple
 game.defineRules()
 
 print("Joueur 1, entrez votre nom : \n")
-j1 = readLine()
+var j1 = readLine()
 
 print("Joueur 2, entrez votre nom : \n")
-j2.readLine()
+var j2 = readLine()
 
 print("Début de la partie... \n \(j1) commence !\n")
 
@@ -59,7 +59,7 @@ while !game.quarto() || game.pieceAvailable{
             print([color,heigh,inside,shape])
         }
         compteur += 1
-        if compteur >=4{
+        if compteur>=4 {
             print("\n")
             compteur = 0
         }
