@@ -16,10 +16,10 @@ print("Bienvenue dans le jeu QUARTO \n Veuillez choisir vos règles entre simple
 game.defineRules()
 
 print("Joueur 1, entrez votre nom : \n")
-var j1 = readLine()
+j1 = readLine()
 
 print("Joueur 2, entrez votre nom : \n")
-var j2 = readLine()
+j2 = readLine()
 
 print("Début de la partie... \n \(j1) commence !\n")
 
