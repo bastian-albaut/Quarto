@@ -1,3 +1,3 @@
-struct piece {
+struct Piece: PieceProtocol {
     
 }

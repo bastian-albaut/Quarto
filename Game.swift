@@ -1,4 +1,4 @@
-struct Game {
+struct Game: GameProtocol {
     private var grid : [[String]]
     private var pieceAvailable : Bool
     private var rules : String
