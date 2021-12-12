@@ -1,4 +1,4 @@
-struct Game: GameProtocol {
+struct Game: GameProtocol, Sequence {
   private var grid : [[String]]
 
   // Est-ce qu'il reste des pièces à jouer ?
@@ -7,13 +7,14 @@ struct Game: GameProtocol {
   private var pieceAvailable : Bool
   private var rules : String
   private var currentTour : String = "tourJ1"
+  private var currentPiece : Piece
 
   // Création d'une Game : initialise un plateau de 16 cases ne contenant pas de pièces, initialise les deux joueurs : un qui choisit la pièce et l'autre qui pose la pièce
   // init : -> Game
   // crée un itérator "ItPlateau" pour parcourir les cases du plateau
   // pieceAvailable = true
   init() {
-      self.grid = [[Piece]](repeating: [String](repeating: " _ ", count: 4), count: 4)
+      self.grid = [[String]](repeating: [String](repeating: " _ ", count: 4), count: 4)
       self.pieceAvailable = true;
       //Créer l'iterator
   }
@@ -59,7 +60,9 @@ struct Game: GameProtocol {
   // choosePiece: Game -> Game x Piece
   // Pre: La pièce n'est pas encore posée sur le plateau, il reste des pièces à poser
   // Récupère la pièce choisie par le joueur et la donne à l'autre joueur afin qu'il la pose sur le plateau
-  mutating func choosePiece()
+  mutating func choosePiece() {
+    print
+  }
 
   // Demande au joueur où placer la pièce(que l'autre joueur lui a donné) sur le plateau, vérifie que la case est libre et place la pièce
   // setPieceAt : Piece x Game -> Game x Piece
@@ -95,5 +98,11 @@ struct Game: GameProtocol {
 
   // makeIterator: Game -> ItPlateau
   // crée un itérateur sur le plateau pour le parcourir dans l'ordre des cases
-  func makeIterator() -> ItPlateau
+  func makeIterator() -> ItPlateau {
+    return ItPlateau(self)
+  }
+}
+
+public struct ItPlateau: IteratorProtocol {
+  
 }
