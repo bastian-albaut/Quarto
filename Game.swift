@@ -1,5 +1,5 @@
 struct Game: GameProtocol, Sequence {
-  private var grid : [[String]]
+  private var grid : [[Piece?]]
 
   // Est-ce qu'il reste des pièces à jouer ?
   // pieceAvailable : Game -> Bool
@@ -14,7 +14,7 @@ struct Game: GameProtocol, Sequence {
   // crée un itérator "ItPlateau" pour parcourir les cases du plateau
   // pieceAvailable = true
   init() {
-      self.grid = [[String]](repeating: [String](repeating: " _ ", count: 4), count: 4)
+      self.grid = [[nil]](repeating: [nil](repeating: nil, count: 4), count: 4)
       self.pieceAvailable = true;
       //Créer l'iterator
   }
@@ -67,33 +67,79 @@ struct Game: GameProtocol, Sequence {
   // Demande au joueur où placer la pièce(que l'autre joueur lui a donné) sur le plateau, vérifie que la case est libre et place la pièce
   // setPieceAt : Piece x Game -> Game x Piece
   // Post: place la pièce sur le plateau à l'endroit indiqué par l'utilisateur
-  mutating func setPieceAt()
+  mutating func setPieceAt(piece: Piece) {
+    print("Donner la ligne: \n")
+    var line: Int = (Int)readLine()
+    print("Donner la colonne: \n")
+    var column: Int = (Int)readLine()
+
+    var i: Int = 0
+    var j: Int = 0
+    var piecePose: Bool = False
+    // Parcours de la grille
+    while i<self.grid.count && !piecePose { // Parcours des lignes
+      while j<self.grid[i].count && !piecePose { // Parcours des colonnes
+          if i==line && j==column {
+            self.grid[i][j] = piece
+            piece.line = i
+            piece.column = j
+            piecePose = True
+          }
+        j++
+      }
+      i++
+    }
+    return piece
+  }
 
   // Regarde si il y a un quarto effectué, après la pose d'une pièce, en fonction des règles choisies au début de la partie et s'il y a un quarto
   // quarto: Game x Piece -> Bool
   // Il y a quarto si, sur une même ligne, colonne ou diagonale, les 4 pièces ont une caractéristique identique avec les règles simples
   // Il y a quarto si, sur une même ligne, colonne, diagonale ou carré, les 4 pièces ont une caractéristique identique avec les règles complexes
-  func quarto() -> Bool
+  func quarto(piece: Piece) -> Bool {
+
+    if(self.rules=="Simples") {
+      return self.quartoLigne(piece) || self.quartoCol(piece) || self.quartoDiag(piece)
+    }
+    if(self.rules=="Complexes") {
+      return self.quartoLigne(piece) || self.quartoCol(piece) || self.quartoDiag(piece) || self.quartoCarre(piece)
+    }
+  }
+  
 
   // vérifie s'il y a un quarto (ou non) sur la ligne après la pose d'une pièce
   // quartoLigne : Game x Piece -> Bool
   // Post : Bool = true si quarto sur la ligne, false sinon
-  func quartoLigne() -> Bool
+  func quartoLigne(piecePose: Piece) -> Bool {
+    listePieces = [Int]()
+    for j in 0...self.grid[piecePose.line].count {
+      listePieces.append(self.grid[piecePose.line][j]
+    }
+    return listePieces.dropFirst().allSatisfy({ $0.color==piecePose.color  || $0.heigh==piecePose.heigh || $0.filling==piecePose.filling || $0.shape==piecePose.shape})
+
+    // https://stackoverflow.com/questions/29588158/check-if-all-elements-of-an-array-have-the-same-value-in-swift/50806159
+  }
 
   // vérifie s'il y a un quarto (ou non) sur la colone après la pose d'une pièce
   // quartoCol : Game x Piece -> Bool
   // Post : Bool = true si quarto sur la colonne, false sinon
-  func quartoCol() -> Bool
+  func quartoCol() -> Bool {
+    
+  }
 
   // vérifie s'il y a un quarto (ou non) sur la diagonale après la pose d'une pièce
   // quartoDiag: Game x Piece -> Bool
   // Post : Bool = true si quarto sur la diagonale, false sinon
-  func quartoDiag() -> Bool
+  func quartoDiag() -> Bool {
+
+  }
 
   // vérifie s'il y a un quarto (ou non) dans un carré après la pose d'une pièce
   // quartoCarre: Game x Piece -> Bool
   // Post : Bool = true si quarto sur un carré, false sinon
-  func quartoCarre() -> Bool
+  func quartoCarre() -> Bool {
+
+  }
 
 
   // makeIterator: Game -> ItPlateau

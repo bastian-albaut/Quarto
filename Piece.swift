@@ -5,6 +5,9 @@ struct Piece: PieceProtocol {
   private var filling : String
   private var shape : String
 
+  private var line: Int?
+  private var column: Int?
+
   // Création des pièces : 16 pièces : 
   //                                
   // blanche basse pleine ronde
