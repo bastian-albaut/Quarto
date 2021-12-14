@@ -30,7 +30,7 @@ struct Piece: PieceProtocol {
   //
   //init: -> Piece
   //crée 16 pièces différentes
-  init(
+  init() {
     for i in 1...16 {
       
       // color:
@@ -54,7 +54,7 @@ struct Piece: PieceProtocol {
         var shape = "carré"
       }
     }
-  )
+  }
   
   // est ce que la pièce est blanche 
   // isWhite: Piece -> Bool

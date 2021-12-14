@@ -1,4 +1,5 @@
 struct Game: GameProtocol, Sequence {
+  associatedtype ItPlateau : IteratorProtocol
   private var grid : [[Piece?]]
 
   // Est-ce qu'il reste des pièces à jouer ?
@@ -63,7 +64,7 @@ struct Game: GameProtocol, Sequence {
   // Pre: La pièce n'est pas encore posée sur le plateau, il reste des pièces à poser
   // Récupère la pièce choisie par le joueur et la donne à l'autre joueur afin qu'il la pose sur le plateau
   mutating func choosePiece() {
-    print
+    // print
   }
 
   // Demande au joueur où placer la pièce(que l'autre joueur lui a donné) sur le plateau, vérifie que la case est libre et place la pièce
@@ -71,9 +72,9 @@ struct Game: GameProtocol, Sequence {
   // Post: place la pièce sur le plateau à l'endroit indiqué par l'utilisateur
   mutating func setPieceAt(piece: Piece) {
     print("Donner la ligne: \n")
-    var line: Int = (Int)readLine()
+    var line: Int = readLine()
     print("Donner la colonne: \n")
-    var column: Int = (Int)readLine()
+    var column: Int = readLine()
 
     var i: Int = 0
     var j: Int = 0
@@ -117,7 +118,7 @@ struct Game: GameProtocol, Sequence {
     // On récupère dans un tableau toutes les pièces à analyser
     listePieces = [Int]()
     for j in 0...self.grid[piecePose.line].count {
-      listePieces.append(self.grid[piecePose.line][j]
+      listePieces.append(self.grid[piecePose.line][j])
     }
 
     // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
@@ -143,12 +144,12 @@ struct Game: GameProtocol, Sequence {
   // vérifie s'il y a un quarto (ou non) sur la colone après la pose d'une pièce
   // quartoCol : Game x Piece -> Bool
   // Post : Bool = true si quarto sur la colonne, false sinon
-  func quartoCol() -> Bool {
+  func quartoCol(piecePose: Piece) -> Bool {
     
     // On récupère dans un tableau toutes les pièces à analyser
     listePieces = [Int]()
-    for j in 0...self.grid[piecePose.line].count {
-      listePieces.append(self.grid[piecePose.line][j]
+    for i in 0...self.grid[][piecePose.column].count {
+      listePieces.append(self.grid[i][piecePose.column])
     }
 
     // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
@@ -170,20 +171,42 @@ struct Game: GameProtocol, Sequence {
     }
     return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape
   }
-  }
 
   // vérifie s'il y a un quarto (ou non) sur la diagonale après la pose d'une pièce
   // quartoDiag: Game x Piece -> Bool
   // Post : Bool = true si quarto sur la diagonale, false sinon
-  func quartoDiag() -> Bool {
-    
+  func quartoDiag(piecePose: Piece) -> Bool {
+    var indexLine: Int = piecePose.line
+    var indexColumn: Int = piecePose.line
+    listePieces = [Int]()
+
+    // On récupère dans un tableau toutes les pièces à analyser
+    // On ajoute les pièces 
+    // for indexLine...4
+    // listePieces.append()
+    return True
   }
 
   // vérifie s'il y a un quarto (ou non) dans un carré après la pose d'une pièce
   // quartoCarre: Game x Piece -> Bool
   // Post : Bool = true si quarto sur un carré, false sinon
-  func quartoCarre() -> Bool {
+  func quartoCarre(piecePose: Piece) -> Bool {
+    // if hautDroite {
 
+    // }
+
+    // if hautGauche {
+
+    // }
+
+    // if basDroite {
+
+    // }
+
+    // if basGauche {
+    
+    // }
+    return True
   }
 
 
@@ -195,15 +218,15 @@ struct Game: GameProtocol, Sequence {
 }
 
 public struct ItPlateau: IteratorProtocol {
-  var plateau: [[Pieces]]
+  var grid: [[Pieces]]
   var indexLine = 0
   var indexColumn = 0
 
-  init(Game: IteratorProtocol) {
-        self.plateau = grid
+  init(grid: [[Pieces]]) {
+        self.grid = grid
     }
 
-  mutating func next() -> Piece? {
+  public mutating func next() -> Piece? {
     guard indexLine<plateau.count && indexColumn<plateau[indexLine].count else { return nil }
     indexLine+=1
     indexColumn+=1

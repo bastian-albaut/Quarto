@@ -23,6 +23,8 @@ j2 = readLine()
 
 print("Début de la partie... \n \(j1) commence !\n")
 
+piecePose: Piece
+
 while !game.quarto(piecePose) || game.pieceAvailable{
 
     var iterator = game.ItPlateau
@@ -71,7 +73,7 @@ while !game.quarto(piecePose) || game.pieceAvailable{
     else {
         print("\(j2) choisis une pièce : \n")
     }
-    var piece: Piece = game.choosePiece()
+    var pieceChoisie = game.choosePiece()
 
     if game.tourJ1(){
         print("\(j2) choisis où poser la pièce : \n")
@@ -80,7 +82,7 @@ while !game.quarto(piecePose) || game.pieceAvailable{
         print("\(j1) choisis où poser la pièce : \n")
     }
     
-    var piece: Piece = game.setPieceAt(piece)   
+    piecePose = game.setPieceAt(pieceChoisie: Piece)   
 
     print("On inverse les rôles des joueurs !\n")
     game.changePlayer()     
