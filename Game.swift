@@ -7,6 +7,8 @@ struct Game: GameProtocol, Sequence {
   private var pieceAvailable : Bool
   private var rules : String
   private var currentTour : String = "tourJ1"
+
+  // Pour utiliser l'iterator
   private var currentPiece : Piece
 
   // Création d'une Game : initialise un plateau de 16 cases ne contenant pas de pièces, initialise les deux joueurs : un qui choisit la pièce et l'autre qui pose la pièce
@@ -111,13 +113,31 @@ struct Game: GameProtocol, Sequence {
   // quartoLigne : Game x Piece -> Bool
   // Post : Bool = true si quarto sur la ligne, false sinon
   func quartoLigne(piecePose: Piece) -> Bool {
+    
+    // On récupère dans un tableau toutes les pièces à analyser
     listePieces = [Int]()
     for j in 0...self.grid[piecePose.line].count {
       listePieces.append(self.grid[piecePose.line][j]
     }
-    return listePieces.dropFirst().allSatisfy({ $0.color==piecePose.color  || $0.heigh==piecePose.heigh || $0.filling==piecePose.filling || $0.shape==piecePose.shape})
 
-    // https://stackoverflow.com/questions/29588158/check-if-all-elements-of-an-array-have-the-same-value-in-swift/50806159
+    // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
+    var quartoByColor: Bool = False
+    var quartoByHeigh: Bool = False
+    var quartoByFilling: Bool = False
+    var quartoByShape: Bool = False
+    if piecePose.color == listePieces[0].color == listePieces[1].color == listePieces[2].color == listePieces[3].color {
+      quartoByColor = True
+    }
+    if piecePose.heigh == listePieces[0].heigh == listePieces[1].heigh == listePieces[2].heigh == listePieces[3].heigh {
+      quartoByHeigh = True
+    }
+    if piecePose.filling == listePieces[0].filling == listePieces[1].filling == listePieces[2].filling == listePieces[3].filling {
+      quartoByFilling = True
+    }
+    if piecePose.shape == listePieces[0].shape == listePieces[1].shape == listePieces[2].shape == listePieces[3].shape {
+      quartoByShape = True
+    }
+    return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape
   }
 
   // vérifie s'il y a un quarto (ou non) sur la colone après la pose d'une pièce
@@ -125,13 +145,38 @@ struct Game: GameProtocol, Sequence {
   // Post : Bool = true si quarto sur la colonne, false sinon
   func quartoCol() -> Bool {
     
+    // On récupère dans un tableau toutes les pièces à analyser
+    listePieces = [Int]()
+    for j in 0...self.grid[piecePose.line].count {
+      listePieces.append(self.grid[piecePose.line][j]
+    }
+
+    // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
+    var quartoByColor: Bool = False
+    var quartoByHeigh: Bool = False
+    var quartoByFilling: Bool = False
+    var quartoByShape: Bool = False
+    if piecePose.color == listePieces[0].color == listePieces[1].color == listePieces[2].color == listePieces[3].color {
+      quartoByColor = True
+    }
+    if piecePose.heigh == listePieces[0].heigh == listePieces[1].heigh == listePieces[2].heigh == listePieces[3].heigh {
+      quartoByHeigh = True
+    }
+    if piecePose.filling == listePieces[0].filling == listePieces[1].filling == listePieces[2].filling == listePieces[3].filling {
+      quartoByFilling = True
+    }
+    if piecePose.shape == listePieces[0].shape == listePieces[1].shape == listePieces[2].shape == listePieces[3].shape {
+      quartoByShape = True
+    }
+    return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape
+  }
   }
 
   // vérifie s'il y a un quarto (ou non) sur la diagonale après la pose d'une pièce
   // quartoDiag: Game x Piece -> Bool
   // Post : Bool = true si quarto sur la diagonale, false sinon
   func quartoDiag() -> Bool {
-
+    
   }
 
   // vérifie s'il y a un quarto (ou non) dans un carré après la pose d'une pièce
@@ -150,5 +195,18 @@ struct Game: GameProtocol, Sequence {
 }
 
 public struct ItPlateau: IteratorProtocol {
-  
+  var plateau: [[Pieces]]
+  var indexLine = 0
+  var indexColumn = 0
+
+  init(Game: IteratorProtocol) {
+        self.plateau = grid
+    }
+
+  mutating func next() -> Piece? {
+    guard indexLine<plateau.count && indexColumn<plateau[indexLine].count else { return nil }
+    indexLine+=1
+    indexColumn+=1
+    return plateau[indexLine-1][indexColumn-1]
+  }
 }

@@ -13,3 +13,6 @@ Faire une fonction getPosition() de Piece qui renvoie la ligne et la colonne de 
 Ou sinon on peut le stocker en attribut global avec Int?
 
 Faire un attribut piecePlace de Piece qui renvoie un booleun indiquant si la piece est placé ou non
+
+
+repetiton dans chaque fonction quarto 
