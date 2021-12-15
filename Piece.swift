@@ -32,27 +32,38 @@ struct Piece: PieceProtocol {
   //crée 16 pièces différentes
   init() {
     for i in 1...16 {
-      
       // color:
       if i<=8 {
         var color = "blanche"
       } else {
         var color = "noire"
       }
-
-      // heigh: 
-      if i%2==0 {
-        var heigh = "haute"
-      } else {
+      // heigh
+      if i==1 || i==2 || i==5 || i==6  || i==9 || i==10 || i==13 || i==14 {
         var heigh = "basse"
+      } else {
+        var heigh = "haute"
+      }   
+      // filling: 
+      if i%2==0 {
+        var heigh = "creuse"
+      } else {
+        var heigh = "pleine"
       }
-
       // shape:
       if 1<=i<=4 && 9<=i<=12 {
         var shape = "ronde"
       } else {
         var shape = "carré"
       }
+
+      // Créer la pièce avec les attributs définis
+      var pieceName = "piece\(i)"
+      var pieceName = Piece()
+      pieceName.color = color
+      pieceName.heigh = heigh
+      pieceName.filling = filling
+      pieceName.shape = shape
     }
   }
   

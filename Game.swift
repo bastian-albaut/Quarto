@@ -64,7 +64,31 @@ struct Game: GameProtocol, Sequence {
   // Pre: La pièce n'est pas encore posée sur le plateau, il reste des pièces à poser
   // Récupère la pièce choisie par le joueur et la donne à l'autre joueur afin qu'il la pose sur le plateau
   mutating func choosePiece() {
-    // print
+    if self.pieceAvailable {
+      print("La liste des pièces encore disponible :")
+
+
+      // affficher les pieces encore disponible
+
+
+
+      print("Donner le numéro de la pièce choisie: \n")
+      var piecePossible: Bool = False
+      while(!piecePossible) {
+        var num: Int = readLine()
+        var pieceName = "piece\(num)"
+        var pieceChoisie: Piece = pieceName
+        if {
+          piecePossible = True
+        }
+
+      }
+
+      return PieceChoisie
+
+      }
+
+    } 
   }
 
   // Demande au joueur où placer la pièce(que l'autre joueur lui a donné) sur le plateau, vérifie que la case est libre et place la pièce
