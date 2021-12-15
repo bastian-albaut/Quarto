@@ -39,7 +39,7 @@ struct Piece: PieceProtocol {
         var color = "noire"
       }
       // heigh
-      if i==1 || i==2 || i==5 || i==6  || i==9 || i==10 || i==13 || i==14 {
+      if i==1 || i==2 || i==5 || i==6 || i==9 || i==10 || i==13 || i==14 {
         var heigh = "basse"
       } else {
         var heigh = "haute"

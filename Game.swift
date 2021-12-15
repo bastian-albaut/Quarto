@@ -215,22 +215,67 @@ struct Game: GameProtocol, Sequence {
   // quartoCarre: Game x Piece -> Bool
   // Post : Bool = true si quarto sur un carré, false sinon
   func quartoCarre(piecePose: Piece) -> Bool {
-    // if hautDroite {
-
-    // }
-
-    // if hautGauche {
-
-    // }
-
-    // if basDroite {
-
-    // }
-
-    // if basGauche {
     
-    // }
-    return True
+    // On vérifie si il y a quarto dans le carré en haut à gauche
+    if piecePose.line <= 1 && piecePose.column <= 1 { 
+      // On récupère dans un tableau toutes les pièces à analyser
+      listePieces = [Int]()
+      listePieces.append(self.grid[0][0])
+      listePieces.append(self.grid[0][1])
+      listePieces.append(self.grid[1][0])
+      listePieces.append(self.grid[1][1])
+    }
+
+    // On vérifie si il y a quarto dans le carré en haut à droite
+    if piecePose.line <= 1 && piecePose.column >= 2 {
+      // On récupère dans un tableau toutes les pièces à analyser
+      listePieces = [Int]()
+      listePieces.append(self.grid[0][2])
+      listePieces.append(self.grid[0][3])
+      listePieces.append(self.grid[1][2])
+      listePieces.append(self.grid[1][3])
+    }
+
+    // On vérifie si il y a quarto dans le carré en bas à gauche
+    if piecePose.line <= 1 && piecePose.column >= 2 {
+      // On récupère dans un tableau toutes les pièces à analyser
+      listePieces = [Int]()
+      listePieces.append(self.grid[2][0])
+      listePieces.append(self.grid[2][1])
+      listePieces.append(self.grid[3][0])
+      listePieces.append(self.grid[3][1])
+    }
+
+    // On vérifie si il y a quarto dans le carré en bas à droite
+    if piecePose.line >= 2 && piecePose.column >= 2 {
+      // On récupère dans un tableau toutes les pièces à analyser
+      listePieces = [Int]()
+      listePieces.append(self.grid[2][2])
+      listePieces.append(self.grid[2][3])
+      listePieces.append(self.grid[3][2])
+      listePieces.append(self.grid[3][3])
+    }
+
+    // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
+    var quartoByColor: Bool = False
+    var quartoByHeigh: Bool = False
+    var quartoByFilling: Bool = False
+    var quartoByShape: Bool = False
+    if piecePose.color == listePieces[0].color == listePieces[1].color == listePieces[2].color == listePieces[3].color {
+      quartoByColor = True
+    }
+    if piecePose.heigh == listePieces[0].heigh == listePieces[1].heigh == listePieces[2].heigh == listePieces[3].heigh {
+      quartoByHeigh = True
+    }
+    if piecePose.filling == listePieces[0].filling == listePieces[1].filling == listePieces[2].filling == listePieces[3].filling {
+      quartoByFilling = True
+    }
+    if piecePose.shape == listePieces[0].shape == listePieces[1].shape == listePieces[2].shape == listePieces[3].shape {
+      quartoByShape = True
+    }
+    return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape
+  }
+
   }
 
 
