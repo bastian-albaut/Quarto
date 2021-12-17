@@ -9,6 +9,7 @@ struct Game: Sequence {
   // Post : true si il reste des pièces, false sinon
   private var pieceAvailable : Bool
 
+  // Liste des pièces encore disponibles
   private var listePieceAvailable: [Piece]
 
   // Règlme du jeu
@@ -76,25 +77,17 @@ struct Game: Sequence {
     if self.pieceAvailable {
       print("La liste des pièces encore disponible :")
       // affficher les pieces encore disponible
-
-
-
-      print("Donner le numéro de la pièce choisie: \n")
-      var piecePossible: Bool = False
-      while(!piecePossible) {
-        var num: Int = readLine()
-        var pieceName = "piece\(num)"
-        var pieceChoisie: Piece = pieceName
-        if {
-          piecePossible = True
-        }
-
+      for i in range(0,self.listePieceAvailable.count) {
+        print("Pièce \(i): \(self.listePieceAvailable[i-1])")
       }
+
+      // Demander et récupérer la pièce choisie
+      print("Donner le numéro de la pièce choisie: \n")
+      var num: Int = readLine()
+      pieceChoisie: Piece = self.listePieceAvailable[num-1]
 
       return PieceChoisie
-
       }
-
     } 
   }
 
@@ -131,7 +124,6 @@ struct Game: Sequence {
   // Il y a quarto si, sur une même ligne, colonne ou diagonale, les 4 pièces ont une caractéristique identique avec les règles simples
   // Il y a quarto si, sur une même ligne, colonne, diagonale ou carré, les 4 pièces ont une caractéristique identique avec les règles complexes
   func quarto(piece: Piece) -> Bool {
-
     if(self.rules=="Simples") {
       return self.quartoLigne(piece) || self.quartoCol(piece) || self.quartoDiag(piece)
     }
@@ -211,11 +203,36 @@ struct Game: Sequence {
     var indexColumn: Int = piecePose.line
     listePieces = [Int]()
 
-    // On récupère dans un tableau toutes les pièces à analyser
-    // On ajoute les pièces 
-    // for indexLine...4
-    // listePieces.append()
-    return True
+    // Il y a 2 diagonales, on va chacune les séparer en 2 pour diviser en 4 la récupération des pièces à analyser
+    // Diagonale haut gauche
+    while indexLine >= 0 || indexColumn >= 0 {
+      listePieces.append(self.grid[indexLine][indexColumn])
+      indexLine-=1
+      indexColumn-=1
+    }
+
+    // Diagonale bas droite
+    while indexLine <= 3 || indexColumn <= 3 {
+      listePieces.append(self.grid[indexLine][indexColumn])
+      indexLine+=1
+      indexColumn+=1
+    }
+
+    // Diagonale bas gauche
+    while indexLine <= 3 || indexColumn >= 0 {
+      listePieces.append(self.grid[indexLine][indexColumn])
+      indexLine+=1
+      indexColumn-=1
+    }
+
+    // Diagonale haut droite
+    while indexLine >= 0 || indexColumn <= 3 {
+      listePieces.append(self.grid[indexLine][indexColumn])
+      indexLine-=1
+      indexColumn+=1
+    }
+
+    return listePieces
   }
 
   // vérifie s'il y a un quarto (ou non) dans un carré après la pose d'une pièce
