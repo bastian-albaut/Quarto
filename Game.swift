@@ -35,19 +35,19 @@ struct Game: Sequence {
   // fonction au démarage du jeu, demande aux joueurs de choisir si ils jouent avec les règles simples(quarto sur ligne, colonne ou diagonale) ou complexes(simples plus quarto sur une carré de 4 cases)
   // defineRules: Game -> Game
   mutating func defineRules() {
-      var correctInformation = false
-      while(!correctInformation) {
-          print("Tapez 1 pour les règles simples\nTapez 2 pour les règles complexes\n")
-          if let input = readLine() {
-              if(input == "1") {
-                  correctInformation = true
-                  self.rules = "Simples"
-              } else if input == "2"{
-                  correctInformation = true
-                  self.rules = "Complexes"
-              }
-          }
-      }
+    var correctInformation = false
+    while(!correctInformation) {
+        print("Tapez 1 pour les règles simples\nTapez 2 pour les règles complexes\n")
+        if let input = readLine() {
+            if(input == "1") {
+                correctInformation = true
+                self.rules = "Simples"
+            } else if input == "2"{
+                correctInformation = true
+                self.rules = "Complexes"
+            }
+        }
+    }
   }
 
   // échange les rôles des deux joueurs, le joueur ayant choisi la pièce devient le joueur qui pose la pièce et inversement
@@ -87,8 +87,7 @@ struct Game: Sequence {
       pieceChoisie: Piece = self.listePieceAvailable[num-1]
 
       return PieceChoisie
-      }
-    } 
+    }
   }
 
   // Demande au joueur où placer la pièce(que l'autre joueur lui a donné) sur le plateau, vérifie que la case est libre et place la pièce
