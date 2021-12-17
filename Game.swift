@@ -1,12 +1,21 @@
-struct Game: GameProtocol, Sequence {
+struct Game: Sequence {
   associatedtype ItPlateau : IteratorProtocol
+
+  // grille de jeu
   private var grid : [[Piece?]]
 
   // Est-ce qu'il reste des pièces à jouer ?
   // pieceAvailable : Game -> Bool
   // Post : true si il reste des pièces, false sinon
   private var pieceAvailable : Bool
+
+  private var listePieceAvailable: [Piece]
+
+  // Règlme du jeu
+  // "Simples" ou "Complexes"
   private var rules : String
+
+
   private var currentTour : String = "tourJ1"
 
   // Pour utiliser l'iterator
@@ -66,8 +75,6 @@ struct Game: GameProtocol, Sequence {
   mutating func choosePiece() {
     if self.pieceAvailable {
       print("La liste des pièces encore disponible :")
-
-
       // affficher les pieces encore disponible
 
 
@@ -274,8 +281,6 @@ struct Game: GameProtocol, Sequence {
       quartoByShape = True
     }
     return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape
-  }
-
   }
 
 

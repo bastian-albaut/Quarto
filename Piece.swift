@@ -1,4 +1,4 @@
-struct Piece: PieceProtocol {
+struct Piece {
 
   private var color : String
   private var heigh : String
