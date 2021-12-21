@@ -31,7 +31,12 @@ struct Piece {
     //
     //init: -> Piece
     //crée 16 pièces différentes
+
     init() {
+      self.color = "blanche"
+    }
+
+    init(test: Int?) {
         var piece1 = Piece()
         piece1.color = "blanche"
         piece1.heigh = "basse"

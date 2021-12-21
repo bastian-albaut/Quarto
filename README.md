@@ -18,3 +18,6 @@ Faire un attribut piecePlace de Piece qui renvoie un booleun indiquant si la pie
 
 
 repetiton dans chaque fonction quarto 
+
+
+choosePiece doit renvoyer un Piece?: car imaginons qu'il n'y a plus de piece dispo

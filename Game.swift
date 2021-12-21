@@ -4,22 +4,22 @@ import Foundation
 public struct Game {
 
     // grille de jeu
-    private var grid : [[Piece?]]
+    var grid : [[Piece?]]
 
     // Est-ce qu'il reste des pièces à jouer ?
     // pieceAvailable : Game -> Bool
     // Post : true si il reste des pièces, false sinon
-    private var pieceAvailable : Bool
+    var pieceAvailable : Bool
 
     // Liste des pièces encore disponibles
-    private var listePieceAvailable: [Piece]
+    var listePieceAvailable: [Piece]
 
     // Règlme du jeu
     // "Simples" ou "Complexes"
-    private var rules : String
+    var rules : String
 
     // Quel est le joueur courant ?
-    private var currentTour : String
+    var currentTour : String
 
     // Pour utiliser l'iterator
     // private var currentPiece : Piece
@@ -78,29 +78,26 @@ public struct Game {
     // choosePiece: Game -> Game x Piece
     // Pre: La pièce n'est pas encore posée sur le plateau, il reste des pièces à poser
     // Récupère la pièce choisie par le joueur et la donne à l'autre joueur afin qu'il la pose sur le plateau
-    mutating func choosePiece() -> Piece? {
-        if self.pieceAvailable {
-            print("La liste des pièces encore disponible :")
-            // affficher les pieces encore disponible
-            for i in 0...self.listePieceAvailable.count {
-                print("Pièce \(i): \(self.listePieceAvailable[i - 1])")
-            }
+    mutating func choosePiece() -> Piece {
+        print("La liste des pièces encore disponible :")
+        // affficher les pieces encore disponible
+        for i in 0...self.listePieceAvailable.count {
+            print("Pièce \(i): \(self.listePieceAvailable[i - 1])")
+        }
 
-            // Demander et récupérer la pièce choisie
-            var correctInformation: Bool = false
-            while (!correctInformation) {
-                print("Donner le numéro de la pièce choisie: \n")
-                if let numString: String = readLine() {
-                    let num: Int = Int(numString) ?? 20
-                    if 0 <= num && num <= self.listePieceAvailable.count {
-                        correctInformation = true
-                        let pieceChoisie: Piece = self.listePieceAvailable[num-1]
-                        return pieceChoisie
-                    }
+        // Demander et récupérer la pièce choisie
+        var correctInformation: Bool = false
+        while (!correctInformation) {
+            print("Donner le numéro de la pièce choisie: \n")
+            if let numString: String = readLine() {
+                let num: Int = Int(numString) ?? 20
+                if 0 <= num && num <= self.listePieceAvailable.count {
+                    correctInformation = true
+                    let pieceChoisie: Piece = self.listePieceAvailable[num-1]
+                    return pieceChoisie
                 }
             }
         }
-        return nil
     }
 
     // Demande au joueur où placer la pièce(que l'autre joueur lui a donné) sur le plateau, vérifie que la case est libre et place la pièce
