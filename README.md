@@ -6,7 +6,7 @@ swiftc -c main.swift GameProtocol.swift PieceProtocol.swift Game.swift Piece.swi
 swiftc -c main.swift Game.swift Piece.swift -module-name Quarto
 
 2-
-
+swiftc -emit-executable main.o Game.o Piece.o -o Quarto
 
 
 Ce que on aurait fait différement dans les spécifications fonctionnelles:

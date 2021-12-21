@@ -25,14 +25,15 @@ print("Début de la partie... \n\(j1) commence !")
 
 var piecePose = p
 
-repeat {
+// repeat {
+    // Affichage du plateau de jeu
+    for i in 0...3 { // ligne
+        var stringLine: String = ""
+        for j in 0...3 { // colonne
+            var p : Piece? = game.grid[i][j]
 
-    var compteur = 0
-    for i in 0...3 {
-        for j in 0...3 {
-            var p = game.grid[i][j]
             if p == nil{
-                print(p)
+                stringLine += " nil "
             } else{
                 if p!.isWhite(){
                     color = "blanc"
@@ -58,34 +59,31 @@ repeat {
                 else{
                     shape = "rond"
                 }
-                print([color,heigh,inside,shape])
-            }
-            compteur += 1
-            if compteur>=4 {
-                print("\n")
-                compteur = 0
+                stringLine += "| \(color),\(heigh),\(inside),\(shape) |"
             }
         }
+        // Après le parcours de toute la ligne: On l'affiche
+        print(stringLine)
     }
 
-    if game.tourJ1() {
-        print("\(j1) choisis une pièce : \n")
-    }
-    else {
-        print("\(j2) choisis une pièce : \n")
-    }
-    var pieceChoisie = game.choosePiece()
+    // if game.tourJ1() {
+    //     print("\(j1) choisis une pièce : \n")
+    // }
+    // else {
+    //     print("\(j2) choisis une pièce : \n")
+    // }
+    // var pieceChoisie: Piece = game.choosePiece()
 
-    if game.tourJ1(){
-        print("\(j2) choisis où poser la pièce : \n")
-    }
-    else {
-        print("\(j1) choisis où poser la pièce : \n")
-    }
+    // if game.tourJ1(){
+    //     print("\(j2) choisis où poser la pièce : \n")
+    // }
+    // else {
+    //     print("\(j1) choisis où poser la pièce : \n")
+    // }
     
-    piecePose = game.setPieceAt(pieceChoisie: Piece)
+    // var piecePose: Piece = game.setPieceAt(pieceChoisie: Piece)
 
-    print("On inverse les rôles des joueurs !\n")
-    game.changePlayer()    
+    // print("On inverse les rôles des joueurs !\n")
+    // game.changePlayer()    
 
-} while !game.quarto(piecePose: Piece) || game.pieceAvailable
+// } while !game.quarto(piecePose: Piece) || game.pieceAvailable

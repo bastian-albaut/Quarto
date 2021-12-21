@@ -103,7 +103,7 @@ public struct Game {
     // Demande au joueur où placer la pièce(que l'autre joueur lui a donné) sur le plateau, vérifie que la case est libre et place la pièce
     // setPieceAt : Piece x Game -> Game x Piece
     // Post: place la pièce sur le plateau à l'endroit indiqué par l'utilisateur
-    mutating func setPieceAt(piece: inout Piece) -> Piece? {
+    mutating func setPieceAt(pieceChoisie: inout Piece) -> Piece? {
         var correctInformation: Bool = false
         while(!correctInformation) {
             print("Donner la ligne: \n")
@@ -122,11 +122,11 @@ public struct Game {
                         while i<self.grid.count && !piecePose { // Parcours des lignes
                             while j < self.grid[i].count && !piecePose { // Parcours des colonnes
                                 if i == line && j == column {
-                                    self.grid[i][j] = piece
-                                    piece.line = i
-                                    piece.column = j
+                                    self.grid[i][j] = pieceChoisie
+                                    pieceChoisie.line = i
+                                    pieceChoisie.column = j
                                     piecePose = true
-                                    return piece
+                                    return pieceChoisie
                                 }
                                 j += 1
                             }
