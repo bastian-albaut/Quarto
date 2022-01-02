@@ -11,14 +11,12 @@ var compteur : Int = 0
 var j1 : String? = nil
 var j2 : String? = nil
 
-print(game.listePieceAvailable)
 game.createPieces()
-print(game.listePieceAvailable)
 
 print("Bienvenue dans le jeu QUARTO \nVeuillez choisir vos règles entre simples et complexes:\n")
 game.defineRules()
 
-print("Joueur 1, entrez votre nom:")
+print("\nJoueur 1, entrez votre nom:")
 j1 = readLine()
 
 print("Joueur 2, entrez votre nom:")
@@ -36,31 +34,31 @@ repeat {
             var p : Piece? = game.grid[i][j]
 
             if p == nil{
-                stringLine += " nil "
+                stringLine += "| nil , nil , nil , nil |"
             } else{
                 if p!.isWhite(){
                     color = "blanc"
                 }
                 else{
-                    color = "noir"
+                    color = "noire"
                 }
                 if p!.isTall(){
-                    heigh = "grand"
+                    heigh = "haute"
                 }
                 else{
-                    heigh = "petit"
+                    heigh = "basse"
                 }
                 if p!.isFull(){
-                    inside = "plein"
+                    inside = "pleine"
                 }
                 else{
-                    inside = "creux"
+                    inside = "creuse"
                 }
                 if p!.isSquare(){
                     shape = "carré"
                 }
                 else{
-                    shape = "rond"
+                    shape = "ronde"
                 }
                 stringLine += "| \(color),\(heigh),\(inside),\(shape) |"
             }
@@ -75,7 +73,7 @@ repeat {
     else {
         print("\n\(j2) choisis une pièce :")
     }
-    var pieceee: Piece = game.choosePiece()
+    var pieceChoisie: Piece = game.choosePiece()
 
     if game.tourJ1(){
         print("\(j2) choisis où poser la pièce : \n")
@@ -84,11 +82,9 @@ repeat {
         print("\(j1) choisis où poser la pièce : \n")
     }
     
-    var pieceChoisie = game.listePieceAvailable[0]
-
     piecePose = game.setPieceAt(pieceChoisie: &pieceChoisie)
+    print("La pièce posé est : \(piecePose)\n")
 
-    print(piecePose)
     print("On inverse les rôles des joueurs !\n")
     game.changePlayer()    
 

@@ -231,16 +231,19 @@ public struct Game {
     // Pre: La pièce n'est pas encore posée sur le plateau, il reste des pièces à poser
     // Récupère la pièce choisie par le joueur et la donne à l'autre joueur afin qu'il la pose sur le plateau
     mutating func choosePiece() -> Piece {
-        print("La liste des pièces encore disponible :")
+        print("\nLa liste des pièces encore disponible :")
         // affficher les pieces encore disponible
         for i in 0...self.listePieceAvailable.count-1 {
             print("Pièce \(i+1): \(self.listePieceAvailable[i])")
         }
 
+        // VERIFIER QUE LA PIECE EST ENCORE DISPO
+
+
         // Demander et récupérer la pièce choisie
         var correctInformation: Bool = false
         while (!correctInformation) {
-            print("Donner le numéro de la pièce choisie:")
+            print("\nDonner le numéro de la pièce choisie:")
             if let numString: String = readLine() {
                 let num: Int = Int(numString) ?? 20
                 if 1 <= num && num <= self.listePieceAvailable.count {
@@ -258,47 +261,57 @@ public struct Game {
     // Post: place la pièce sur le plateau à l'endroit indiqué par l'utilisateur
     mutating func setPieceAt(pieceChoisie: inout Piece) -> Piece {
         var correctInformation: Bool = false
+        var x : Int = 0
+        var y : Int = 0
         while(!correctInformation) {
-            print("Donner la ligne:")
+            print("Donner la ligne: (de 0 à 3)")
             if let numString: String = readLine() {
-                let x : Int = Int(numString) ?? 20
-                print("Donner la colonne:")
+                x = Int(numString) ?? 20
+                print("Donner la colonne: (de 0 à 3)")
                 if let numString2: String = readLine() {
-                    let y : Int = Int(numString2) ?? 20
-                    if 0<=x && x<=4 && 0<=y && y<=4 {
-                        correctInformation = true
+                    y = Int(numString2) ?? 20
 
-                        var i: Int = 0
-                        var j: Int = 0
-                        var piecePose: Bool = false
-                        // Parcours de la grille
-                        while i<self.grid.count && !piecePose { // Parcours des lignes
-                            while j < self.grid[i].count && !piecePose { // Parcours des colonnes
-                                if i == x && j == y {
-                                    // On place la pièce
-                                    self.grid[i][j] = pieceChoisie
-                                    // On modifie les attributs de position de la pièce
-                                    pieceChoisie.line = i
-                                    pieceChoisie.column = j
-                                    // On enlève la pièce de la liste des pièces disponibles
-                                    print(self.listePieceAvailable)
-                                    // if let Offset = self.listePieceAvailable.firstIndex(where: {$0.line == i && $0.column = j} {
-                                    //     print("trouvé")
-                                    // } else {
-                                    //     print("pas trouvé")
-                                    // }
-                                    print(self.listePieceAvailable)
-                                    piecePose = true
-                                }
-                                j += 1
-                            }
-                            j=0
-                            i += 1
+                    // On vérifie que la position indiqué est bien sur le plateau et ne contient pas déjà une pièce
+                    if 0<=x && x<=4 && 0<=y && y<=4 {
+                        if self.grid[x][y] == nil{
+                            correctInformation = true
+                        } else {
+                            print("La position indiquée contient déjà une pièce. \n")
                         }
+                    } else {
+                        print("La position indiquée n'appartient pas au plateau. \n")
                     }
                 }
             }
         }
+        var i: Int = 0
+        var j: Int = 0
+        var piecePose: Bool = false
+        // Parcours de la grille
+        while i<self.grid.count && !piecePose { // Parcours des lignes
+            while j < self.grid[i].count && !piecePose { // Parcours des colonnes
+                if i == x && j == y {
+                    // On place la pièce
+                    self.grid[i][j] = pieceChoisie
+                    // On modifie les attributs de position de la pièce
+                    pieceChoisie.line = i
+                    pieceChoisie.column = j
+                    // On enlève la pièce de la liste des pièces disponibles
+                    print(self.listePieceAvailable)
+                    // if let Offset = self.listePieceAvailable.firstIndex(where: {$0.line == i && $0.column = j} {
+                    //     print("trouvé")
+                    // } else {
+                    //     print("pas trouvé")
+                    // }
+                    print(self.listePieceAvailable)
+                    piecePose = true
+                }
+                j += 1
+            }
+            j=0
+            i += 1
+        }
+            
       return pieceChoisie
     }
 
