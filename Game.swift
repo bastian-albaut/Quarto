@@ -212,7 +212,6 @@ public struct Game {
     // changePlayer: Game -> Game
     mutating func changePlayer() {
         if(self.currentTour == "tourJ1") {
-            print("testtttttttttttt")
             self.currentTour = "tourJ2"
         }
         if(self.currentTour == "tourJ2") {
@@ -293,6 +292,7 @@ public struct Game {
                                 }
                                 j += 1
                             }
+                            j=0
                             i += 1
                         }
                     }

@@ -1,6 +1,6 @@
 import Foundation
 
-struct Piece {
+public struct Piece {
     var color: String = "blanche"
     var heigh: String = "basse"
     var filling: String = "pleine"
