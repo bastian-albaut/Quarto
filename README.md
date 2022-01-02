@@ -21,3 +21,6 @@ repetiton dans chaque fonction quarto
 
 
 choosePiece doit renvoyer un Piece?: car imaginons qu'il n'y a plus de piece dispo
+
+
+Il y a des grosses fonctions qui auraient dû etre split

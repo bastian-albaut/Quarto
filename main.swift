@@ -11,6 +11,9 @@ var compteur : Int = 0
 var j1 : String? = nil
 var j2 : String? = nil
 
+print(game.listePieceAvailable)
+game.createPieces()
+print(game.listePieceAvailable)
 
 print("Bienvenue dans le jeu QUARTO \nVeuillez choisir vos règles entre simples et complexes:\n")
 game.defineRules()
@@ -25,7 +28,7 @@ print("Début de la partie... \n\(j1) commence !")
 
 var piecePose = p
 
-// repeat {
+repeat {
     // Affichage du plateau de jeu
     for i in 0...3 { // ligne
         var stringLine: String = ""
@@ -66,24 +69,27 @@ var piecePose = p
         print(stringLine)
     }
 
-    // if game.tourJ1() {
-    //     print("\(j1) choisis une pièce : \n")
-    // }
-    // else {
-    //     print("\(j2) choisis une pièce : \n")
-    // }
-    // var pieceChoisie: Piece = game.choosePiece()
+    if game.tourJ1() {
+        print("\n\(j1) choisis une pièce :")
+    }
+    else {
+        print("\n\(j2) choisis une pièce :")
+    }
+    var pieceee: Piece = game.choosePiece()
 
-    // if game.tourJ1(){
-    //     print("\(j2) choisis où poser la pièce : \n")
-    // }
-    // else {
-    //     print("\(j1) choisis où poser la pièce : \n")
-    // }
+    if game.tourJ1(){
+        print("\(j2) choisis où poser la pièce : \n")
+    }
+    else {
+        print("\(j1) choisis où poser la pièce : \n")
+    }
     
-    // var piecePose: Piece = game.setPieceAt(pieceChoisie: Piece)
+    var pieceChoisie = game.listePieceAvailable[0]
 
-    // print("On inverse les rôles des joueurs !\n")
-    // game.changePlayer()    
+    piecePose = game.setPieceAt(pieceChoisie: &pieceChoisie)
 
-// } while !game.quarto(piecePose: Piece) || game.pieceAvailable
+    print(piecePose)
+    print("On inverse les rôles des joueurs !\n")
+    game.changePlayer()    
+
+} while !game.quarto(piecePose: piecePose) || game.pieceAvailable
