@@ -301,17 +301,16 @@ public struct Game {
                 if i == x && j == y {
                     // On place la pièce
                     self.grid[i][j] = pieceChoisie
+
                     // On modifie les attributs de position de la pièce
                     pieceChoisie.line = i
                     pieceChoisie.column = j
-                    // On enlève la pièce de la liste des pièces disponibles
-                    // Ainsi on récupère la position 
-                    print(self.listePieces)
-                    print("\n")
-                    self.listePieces.remove(at: 0)
-                    self.listePieces.insert(nil, at: 0)
 
-                    print(self.listePieces)
+                    // On enlève la pièce de la liste des pièces disponibles
+                    if let index = self.listePieces.firstIndex(where: {$0!.color == pieceChoisie.color && $0!.heigh == pieceChoisie.heigh && $0!.filling == pieceChoisie.filling && $0!.shape == pieceChoisie.shape}) {
+                        self.listePieces.remove(at: index)
+                        self.listePieces.insert(nil, at: index)
+                    }
                     piecePose = true
                 }
                 j += 1
