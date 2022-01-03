@@ -12,7 +12,7 @@ public struct Game {
     var pieceAvailable : Bool
 
     // Liste des pièces encore disponibles
-    var listePieceAvailable: [Piece]
+    var listePieceAvailable: [Piece?]
 
     // Règlme du jeu
     // "Simples" ou "Complexes"
@@ -231,10 +231,14 @@ public struct Game {
     // Pre: La pièce n'est pas encore posée sur le plateau, il reste des pièces à poser
     // Récupère la pièce choisie par le joueur et la donne à l'autre joueur afin qu'il la pose sur le plateau
     mutating func choosePiece() -> Piece {
-        print("\nLa liste des pièces encore disponible :")
+        print("\nLa liste des pièces actualisé :")
         // affficher les pieces encore disponible
         for i in 0...self.listePieceAvailable.count-1 {
-            print("Pièce \(i+1): \(self.listePieceAvailable[i])")
+            if(self.listePieceAvailable[i] == nil) {
+                print("Pièce \(i+1): Pièce déjà placée")
+            } else {
+                print("Pièce \(i+1): \(self.listePieceAvailable[i])")
+            }
         }
 
         // VERIFIER QUE LA PIECE EST ENCORE DISPO
@@ -248,7 +252,7 @@ public struct Game {
                 let num: Int = Int(numString) ?? 20
                 if 1 <= num && num <= self.listePieceAvailable.count {
                     correctInformation = true
-                    let pieceChoisie: Piece = self.listePieceAvailable[num-1]
+                    let pieceChoisie: Piece = self.listePieceAvailable[num-1]!
                     return pieceChoisie
                 }
             }
@@ -297,12 +301,12 @@ public struct Game {
                     pieceChoisie.line = i
                     pieceChoisie.column = j
                     // On enlève la pièce de la liste des pièces disponibles
+                    // Ainsi on récupère la position 
                     print(self.listePieceAvailable)
-                    // if let Offset = self.listePieceAvailable.firstIndex(where: {$0.line == i && $0.column = j} {
-                    //     print("trouvé")
-                    // } else {
-                    //     print("pas trouvé")
-                    // }
+                    print("\n")
+                    self.listePieceAvailable.remove(at: 0)
+                    self.listePieceAvailable.insert(nil, at: 0)
+
                     print(self.listePieceAvailable)
                     piecePose = true
                 }

@@ -22,19 +22,19 @@ j1 = readLine()
 print("Joueur 2, entrez votre nom:")
 j2 = readLine()
 
-print("Début de la partie... \n\(j1) commence !")
-
 var piecePose = p
 
 repeat {
+
     // Affichage du plateau de jeu
+    print("\nPlateau actualisé:")
     for i in 0...3 { // ligne
         var stringLine: String = ""
         for j in 0...3 { // colonne
             var p : Piece? = game.grid[i][j]
 
             if p == nil{
-                stringLine += "| nil , nil , nil , nil |"
+                stringLine += "|xxxxxxxxxxxxxxxxxxxxxxxxxx|"
             } else{
                 if p!.isWhite(){
                     color = "blanc"
