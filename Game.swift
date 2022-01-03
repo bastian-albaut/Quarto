@@ -12,7 +12,7 @@ public struct Game {
     var pieceAvailable : Bool
 
     // Liste des pièces encore disponibles
-    var listePieces: [Piece?]
+    var listePieces: [Piece]
 
     // Règlme du jeu
     // "Simples" ou "Complexes"
@@ -213,8 +213,7 @@ public struct Game {
     mutating func changePlayer() {
         if(self.currentTour == "tourJ1") {
             self.currentTour = "tourJ2"
-        }
-        if(self.currentTour == "tourJ2") {
+        } else {
             self.currentTour = "tourJ1"
         }
     }
@@ -234,11 +233,7 @@ public struct Game {
         print("\nLa liste des pièces actualisée:")
         // affficher les pieces encore disponible
         for i in 0...self.listePieces.count-1 {
-            if(self.listePieces[i] == nil) {
-                print("Pièce \(i+1): Pièce déjà placée")
-            } else {
-                print("Pièce \(i+1): \(self.listePieces[i])")
-            }
+            print("Pièce \(i+1): \(self.listePieces[i])")
         }
 
         // Demander et récupérer la pièce choisie
@@ -250,14 +245,9 @@ public struct Game {
 
                 // Vérifier que le numéro est bien dans le tableau
                 if 1 <= num && num <= self.listePieces.count {
-                    // Vérifier que le numéro n'appartient pas à une pièce déjà placée
-                    if(self.listePieces[num-1] != nil) {
-                        correctInformation = true
-                        let pieceChoisie: Piece = self.listePieces[num-1]!
-                        return pieceChoisie
-                    } else {
-                        print("\nCette pièce est déjà placée sur le plateau.")
-                    }
+                    correctInformation = true
+                    let pieceChoisie: Piece = self.listePieces[num-1]
+                    return pieceChoisie
                 }
             }
         }
@@ -306,15 +296,9 @@ public struct Game {
                     pieceChoisie.line = i
                     pieceChoisie.column = j
 
-                    print(pieceChoisie.color)
-                    print(pieceChoisie.heigh)
-                    print(pieceChoisie.filling)
-                    print(pieceChoisie.shape)
-
                     // On enlève la pièce de la liste des pièces disponibles
-                    if let index = self.listePieces.firstIndex(where: {$0!.color == pieceChoisie.color && $0!.heigh == pieceChoisie.heigh && $0!.filling == pieceChoisie.filling && $0!.shape == pieceChoisie.shape}) {
+                    if let index = self.listePieces.firstIndex(where: {$0.color == pieceChoisie.color && $0.heigh == pieceChoisie.heigh && $0.filling == pieceChoisie.filling && $0.shape == pieceChoisie.shape}) {
                         self.listePieces.remove(at: index)
-                        self.listePieces.insert(nil, at: index)
                     }
                     piecePose = true
                 }
@@ -346,236 +330,231 @@ public struct Game {
     // quartoLigne : Game x Piece -> Bool
     // Post : Bool = true si quarto sur la ligne, false sinon
     func quartoLigne(piecePose: Piece) -> Bool {
-        return false
-        // // On récupère dans un tableau toutes les pièces à analyser
-        // // Si il y a des cases qui ne contiennent pas encore de pièces alors on renvoie false
-        // var listePieces = [Piece]()
-        // var nilFound = false
-        // var j=0
-        // while j<4 && !nilFound {
-        //     guard let piece = self.grid[piecePose.line!][j] else {
-        //         nilFound = true
-        //         return false
-        //     }
+        // On récupère dans un tableau toutes les pièces à analyser
+        // Si il y a des cases qui ne contiennent pas encore de pièces alors on renvoie false
+        var listePieces = [Piece]()
+        var nilFound = false
+        var j=0
+        while j<4 && !nilFound {
+            guard let piece = self.grid[piecePose.line!][j] else {
+                nilFound = true
+                return false
+            }
             
-        //     listePieces.append(piece)
-        //     j+=1
-        // }
+            listePieces.append(piece)
+            j+=1
+        }
     
-        // // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
-        // var quartoByColor: Bool = false
-        // var quartoByHeigh: Bool = false
-        // var quartoByFilling: Bool = false
-        // var quartoByShape: Bool = false
+        // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
+        var quartoByColor: Bool = false
+        var quartoByHeigh: Bool = false
+        var quartoByFilling: Bool = false
+        var quartoByShape: Bool = false
 
-        // if(!nilFound) {
-        //     if (piecePose.color == listePieces[0].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
-        //         quartoByColor = true
-        //     }
-        //     if (piecePose.heigh == listePieces[0].heigh) && (listePieces[1].heigh == listePieces[2].heigh) && (listePieces[2].heigh == listePieces[3].heigh) {
-        //         quartoByHeigh = true
-        //     }
-        //     if (piecePose.filling == listePieces[0].filling) && (listePieces[1].filling == listePieces[2].filling) && (listePieces[2].filling == listePieces[3].filling) {
-        //         quartoByFilling = true
-        //     }
-        //     if (piecePose.shape == listePieces[0].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
-        //         quartoByShape = true
-        //     }
-        // }
-        // return !nilFound && (quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape)
+        if(!nilFound) {
+            if (piecePose.color == listePieces[0].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
+                quartoByColor = true
+            }
+            if (piecePose.heigh == listePieces[0].heigh) && (listePieces[1].heigh == listePieces[2].heigh) && (listePieces[2].heigh == listePieces[3].heigh) {
+                quartoByHeigh = true
+            }
+            if (piecePose.filling == listePieces[0].filling) && (listePieces[1].filling == listePieces[2].filling) && (listePieces[2].filling == listePieces[3].filling) {
+                quartoByFilling = true
+            }
+            if (piecePose.shape == listePieces[0].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
+                quartoByShape = true
+            }
+        }
+        return !nilFound && (quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape)
     }
 
     // vérifie s'il y a un quarto (ou non) sur la colone après la pose d'une pièce
     // quartoCol : Game x Piece -> Bool
     // Post : Bool = true si quarto sur la colonne, false sinon
     func quartoCol(piecePose: Piece) -> Bool {
-        return false
-        // // On récupère dans un tableau toutes les pièces à analyser
-        // var listePieces = [Piece]()
-        // var nilFound = false
-        // var i=0
-        // while i<4 && !nilFound {
-        //     if(self.grid[i][piecePose.column!] == nil) {
-        //         nilFound = true
-        //     } else {
-        //         listePieces.append(self.grid[i][piecePose.column!]!)
-        //     }
-        //     i+=1
-        // }
+        // On récupère dans un tableau toutes les pièces à analyser
+        var listePieces = [Piece]()
+        var nilFound = false
+        var i=0
+        while i<4 && !nilFound {
+            if(self.grid[i][piecePose.column!] == nil) {
+                nilFound = true
+                return false
+            } else {
+                listePieces.append(self.grid[i][piecePose.column!]!)
+            }
+            i+=1
+        }
         
-        // // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
-        // var quartoByColor: Bool = false
-        // var quartoByHeigh: Bool = false
-        // var quartoByFilling: Bool = false
-        // var quartoByShape: Bool = false
+        // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
+        var quartoByColor: Bool = false
+        var quartoByHeigh: Bool = false
+        var quartoByFilling: Bool = false
+        var quartoByShape: Bool = false
 
-        // if(!nilFound) {
-        //     if (piecePose.color == listePieces[0].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
-        //         quartoByColor = true
-        //     }
-        //     if (piecePose.heigh == listePieces[0].heigh) && (listePieces[1].heigh == listePieces[2].heigh) && (listePieces[2].heigh == listePieces[3].heigh) {
-        //         quartoByHeigh = true
-        //     }
-        //     if (piecePose.filling == listePieces[0].filling) && (listePieces[1].filling == listePieces[2].filling) && (listePieces[2].filling == listePieces[3].filling) {
-        //         quartoByFilling = true
-        //     }
-        //     if (piecePose.shape == listePieces[0].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
-        //         quartoByShape = true
-        //     }
-        // }
-        // return !nilFound && (quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape)
+        if(!nilFound) {
+            if (piecePose.color == listePieces[0].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
+                quartoByColor = true
+            }
+            if (piecePose.heigh == listePieces[0].heigh) && (listePieces[1].heigh == listePieces[2].heigh) && (listePieces[2].heigh == listePieces[3].heigh) {
+                quartoByHeigh = true
+            }
+            if (piecePose.filling == listePieces[0].filling) && (listePieces[1].filling == listePieces[2].filling) && (listePieces[2].filling == listePieces[3].filling) {
+                quartoByFilling = true
+            }
+            if (piecePose.shape == listePieces[0].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
+                quartoByShape = true
+            }
+        }
+        return !nilFound && (quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape)
     }
 
     // vérifie s'il y a un quarto (ou non) sur la diagonale après la pose d'une pièce
     // quartoDiag: Game x Piece -> Bool
     // Post : Bool = true si quarto sur la diagonale, false sinon
-    func quartoDiag(piecePose: Piece) -> Bool {
-        return false
-       
-        // var indexLine: Int = piecePose.line!
-        // var indexColumn: Int = piecePose.line!
-        // var listePieces = [Piece]()
+    func quartoDiag(piecePose: Piece) -> Bool {       
+        var indexLine: Int = piecePose.line!
+        var indexColumn: Int = piecePose.line!
+        var listePieces = [Piece]()
 
-        // // Il y a 2 diagonales, on va chacune les séparer en 2 pour diviser en 4 la récupération des pièces à analyser
-        // // Diagonale haut gauche
-        // while indexLine >= 0 || indexColumn >= 0 {
-        //     if(self.grid[indexLine][indexColumn] == nil) {
-        //         return false
-        //     } else {
-        //         listePieces.append(self.grid[indexLine][indexColumn]!)
-        //         indexLine-=1
-        //         indexColumn-=1
-        //     }
-        // }
+        // Il y a 2 diagonales, on va chacune les séparer en 2 pour diviser en 4 la récupération des pièces à analyser
+        // Diagonale haut gauche
+        while indexLine >= 0 || indexColumn >= 0 {
+            if(self.grid[indexLine][indexColumn] == nil) {
+                return false
+            } else {
+                listePieces.append(self.grid[indexLine][indexColumn]!)
+                indexLine-=1
+                indexColumn-=1
+            }
+        }
 
-        // // Diagonale bas droite
-        // while indexLine <= 3 || indexColumn <= 3 {
-        //     if(self.grid[indexLine][indexColumn] == nil) {
-        //         return false 
-        //     } else {
-        //         listePieces.append(self.grid[indexLine][indexColumn]!)
-        //         indexLine+=1
-        //         indexColumn+=1
-        //     }
-        // }
+        // Diagonale bas droite
+        while indexLine <= 3 || indexColumn <= 3 {
+            if(self.grid[indexLine][indexColumn] == nil) {
+                return false 
+            } else {
+                listePieces.append(self.grid[indexLine][indexColumn]!)
+                indexLine+=1
+                indexColumn+=1
+            }
+        }
 
-        // // Diagonale bas gauche
-        // while indexLine <= 3 || indexColumn >= 0 {
-        //     if (self.grid[indexLine][indexColumn] == nil) {
-        //         return false
-        //     } else {
-        //         listePieces.append(self.grid[indexLine][indexColumn]!)
-        //         indexLine+=1
-        //         indexColumn-=1
-        //     }
-        // }
+        // Diagonale bas gauche
+        while indexLine <= 3 || indexColumn >= 0 {
+            if (self.grid[indexLine][indexColumn] == nil) {
+                return false
+            } else {
+                listePieces.append(self.grid[indexLine][indexColumn]!)
+                indexLine+=1
+                indexColumn-=1
+            }
+        }
 
-        // // Diagonale haut droite
-        // while indexLine >= 0 || indexColumn <= 3 {
-        //     if(self.grid[indexLine][indexColumn] == nil) {
-        //         return false 
-        //     } else {
-        //         listePieces.append(self.grid[indexLine][indexColumn]!)
-        //         indexLine-=1
-        //         indexColumn+=1
-        //     }
-        // }
+        // Diagonale haut droite
+        while indexLine >= 0 || indexColumn <= 3 {
+            if(self.grid[indexLine][indexColumn] == nil) {
+                return false 
+            } else {
+                listePieces.append(self.grid[indexLine][indexColumn]!)
+                indexLine-=1
+                indexColumn+=1
+            }
+        }
 
-        // // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
-        // var quartoByColor: Bool = false
-        // var quartoByHeigh: Bool = false
-        // var quartoByFilling: Bool = false
-        // var quartoByShape: Bool = false
-        // if (piecePose.color == listePieces[0].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
-        //     quartoByColor = true
-        // }
-        // if (piecePose.heigh == listePieces[0].heigh) && (listePieces[1].heigh == listePieces[2].heigh) && (listePieces[2].heigh == listePieces[3].heigh) {
-        //     quartoByHeigh = true
-        // }
-        // if (piecePose.filling == listePieces[0].filling) && (listePieces[1].filling == listePieces[2].filling) && (listePieces[2].filling == listePieces[3].filling) {
-        //     quartoByFilling = true
-        // }
-        // if (piecePose.shape == listePieces[0].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
-        //     quartoByShape = true
-        // }
-        // return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape
+        // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
+        var quartoByColor: Bool = false
+        var quartoByHeigh: Bool = false
+        var quartoByFilling: Bool = false
+        var quartoByShape: Bool = false
+        if (piecePose.color == listePieces[0].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
+            quartoByColor = true
+        }
+        if (piecePose.heigh == listePieces[0].heigh) && (listePieces[1].heigh == listePieces[2].heigh) && (listePieces[2].heigh == listePieces[3].heigh) {
+            quartoByHeigh = true
+        }
+        if (piecePose.filling == listePieces[0].filling) && (listePieces[1].filling == listePieces[2].filling) && (listePieces[2].filling == listePieces[3].filling) {
+            quartoByFilling = true
+        }
+        if (piecePose.shape == listePieces[0].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
+            quartoByShape = true
+        }
+        return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape
     }
 
     // vérifie s'il y a un quarto (ou non) dans un carré après la pose d'une pièce
     // quartoCarre: Game x Piece -> Bool
     // Post : Bool = true si quarto sur un carré, false sinon
     func quartoCarre(piecePose: Piece) -> Bool {
-        return false
-        
-        // // On récupère dans un tableau toutes les pièces à analyser
-        // var listePieces = [Piece]()
+        // On récupère dans un tableau toutes les pièces à analyser
+        var listePieces = [Piece]()
 
-        // // On vérifie si il y a quarto dans le carré en haut à gauche
-        // if piecePose.line! <= 1 && piecePose.column! <= 1 {
-        //     if(self.grid[0][0] == nil || self.grid[0][1] == nil || self.grid[1][0] == nil || self.grid[1][1] == nil) {
-        //         return false 
-        //     } else {
-        //         listePieces.append(self.grid[0][0]!)
-        //         listePieces.append(self.grid[0][1]!)
-        //         listePieces.append(self.grid[1][0]!)
-        //         listePieces.append(self.grid[1][1]!)
-        //     }
-        // }
+        // On vérifie si il y a quarto dans le carré en haut à gauche
+        if piecePose.line! <= 1 && piecePose.column! <= 1 {
+            if(self.grid[0][0] == nil || self.grid[0][1] == nil || self.grid[1][0] == nil || self.grid[1][1] == nil) {
+                return false 
+            } else {
+                listePieces.append(self.grid[0][0]!)
+                listePieces.append(self.grid[0][1]!)
+                listePieces.append(self.grid[1][0]!)
+                listePieces.append(self.grid[1][1]!)
+            }
+        }
 
-        // // On vérifie si il y a quarto dans le carré en haut à droite
-        // if piecePose.line! <= 1 && piecePose.column! >= 2 {
-        //     if(self.grid[0][2] == nil || self.grid[0][3] == nil || self.grid[1][2] == nil || self.grid[1][3] == nil) {
-        //         return false 
-        //     } else {
-        //         listePieces.append(self.grid[0][2]!)
-        //         listePieces.append(self.grid[0][3]!)
-        //         listePieces.append(self.grid[1][2]!)
-        //         listePieces.append(self.grid[1][3]!)
-        //     }
-        // }
+        // On vérifie si il y a quarto dans le carré en haut à droite
+        if piecePose.line! <= 1 && piecePose.column! >= 2 {
+            if(self.grid[0][2] == nil || self.grid[0][3] == nil || self.grid[1][2] == nil || self.grid[1][3] == nil) {
+                return false 
+            } else {
+                listePieces.append(self.grid[0][2]!)
+                listePieces.append(self.grid[0][3]!)
+                listePieces.append(self.grid[1][2]!)
+                listePieces.append(self.grid[1][3]!)
+            }
+        }
 
-        // // On vérifie si il y a quarto dans le carré en bas à gauche
-        // if piecePose.line! <= 1 && piecePose.column! >= 2 {
-        //     if(self.grid[2][0] == nil || self.grid[2][1] == nil || self.grid[3][0] == nil || self.grid[3][1] == nil) {
-        //         return false 
-        //     } else {
-        //         listePieces.append(self.grid[2][0]!)
-        //         listePieces.append(self.grid[2][1]!)
-        //         listePieces.append(self.grid[3][0]!)
-        //         listePieces.append(self.grid[3][1]!)
-        //     }           
-        // }
+        // On vérifie si il y a quarto dans le carré en bas à gauche
+        if piecePose.line! <= 1 && piecePose.column! >= 2 {
+            if(self.grid[2][0] == nil || self.grid[2][1] == nil || self.grid[3][0] == nil || self.grid[3][1] == nil) {
+                return false 
+            } else {
+                listePieces.append(self.grid[2][0]!)
+                listePieces.append(self.grid[2][1]!)
+                listePieces.append(self.grid[3][0]!)
+                listePieces.append(self.grid[3][1]!)
+            }           
+        }
 
-        // // On vérifie si il y a quarto dans le carré en bas à droite
-        // if piecePose.line! >= 2 && piecePose.column! >= 2 {
-        //     if(self.grid[2][2] == nil || self.grid[2][3] == nil || self.grid[3][2] == nil || self.grid[3][3] == nil) {
-        //         return false 
-        //     } else {
-        //         listePieces.append(self.grid[2][2]!)
-        //         listePieces.append(self.grid[2][3]!)
-        //         listePieces.append(self.grid[3][2]!)
-        //         listePieces.append(self.grid[3][3]!)
-        //     }  
-        // }
+        // On vérifie si il y a quarto dans le carré en bas à droite
+        if piecePose.line! >= 2 && piecePose.column! >= 2 {
+            if(self.grid[2][2] == nil || self.grid[2][3] == nil || self.grid[3][2] == nil || self.grid[3][3] == nil) {
+                return false 
+            } else {
+                listePieces.append(self.grid[2][2]!)
+                listePieces.append(self.grid[2][3]!)
+                listePieces.append(self.grid[3][2]!)
+                listePieces.append(self.grid[3][3]!)
+            }  
+        }
 
-        // // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
-        // var quartoByColor: Bool = false
-        // var quartoByHeigh: Bool = false
-        // var quartoByFilling: Bool = false
-        // var quartoByShape: Bool = false
-        // if (piecePose.color == listePieces[0].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
-        //     quartoByColor = true
-        // }
-        // if (piecePose.heigh == listePieces[0].heigh) && (listePieces[1].heigh == listePieces[2].heigh) && (listePieces[2].heigh == listePieces[3].heigh) {
-        //     quartoByHeigh = true
-        // }
-        // if (piecePose.filling == listePieces[0].filling) && (listePieces[1].filling == listePieces[2].filling) && (listePieces[2].filling == listePieces[3].filling) {
-        //     quartoByFilling = true
-        // }
-        // if (piecePose.shape == listePieces[0].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
-        //     quartoByShape = true
-        // }
-        // return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape
+        // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
+        var quartoByColor: Bool = false
+        var quartoByHeigh: Bool = false
+        var quartoByFilling: Bool = false
+        var quartoByShape: Bool = false
+        if (piecePose.color == listePieces[0].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
+            quartoByColor = true
+        }
+        if (piecePose.heigh == listePieces[0].heigh) && (listePieces[1].heigh == listePieces[2].heigh) && (listePieces[2].heigh == listePieces[3].heigh) {
+            quartoByHeigh = true
+        }
+        if (piecePose.filling == listePieces[0].filling) && (listePieces[1].filling == listePieces[2].filling) && (listePieces[2].filling == listePieces[3].filling) {
+            quartoByFilling = true
+        }
+        if (piecePose.shape == listePieces[0].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
+            quartoByShape = true
+        }
+        return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape
     }
 }
 

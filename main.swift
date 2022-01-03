@@ -25,7 +25,6 @@ j2 = readLine()
 var piecePose = p
 
 repeat {
-
     // Affichage du plateau de jeu
     print("\nPlateau actualisé:")
     for i in 0...3 { // ligne
@@ -67,15 +66,16 @@ repeat {
         print(stringLine)
     }
 
-    if game.tourJ1() {
+    if game.currentTour == "tourJ1" {
         print("\n\(j1) choisis une pièce:")
     }
     else {
         print("\n\(j2) choisis une pièce:")
     }
+
     var pieceChoisie: Piece = game.choosePiece()
 
-    if game.tourJ1(){
+    if game.currentTour == "tourJ1" {
         print("\(j2) choisis où poser la pièce: \n")
     }
     else {
@@ -83,9 +83,9 @@ repeat {
     }
     
     piecePose = game.setPieceAt(pieceChoisie: &pieceChoisie)
-    print("La pièce posé est: \(piecePose)\n")
 
-    print("On inverse les rôles des joueurs !\n")
-    game.changePlayer()    
+    game.changePlayer()
 
-} while !game.quarto(piecePose: piecePose) || game.pieceAvailable
+} while !game.quarto(piecePose: piecePose) && game.pieceAvailable
+
+game.currentTour == "tourJ1" ? print("Le gagnant est J2") : print("Le gagnant est J1") 
