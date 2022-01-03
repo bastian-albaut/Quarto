@@ -12,7 +12,7 @@ public struct Game {
     var pieceAvailable : Bool
 
     // Liste des pièces encore disponibles
-    var listePieceAvailable: [Piece?]
+    var listePieces: [Piece?]
 
     // Règlme du jeu
     // "Simples" ou "Complexes"
@@ -33,12 +33,12 @@ public struct Game {
         self.pieceAvailable = true;
         self.rules = "Simples"
         self.currentTour = "tourJ1"
-        self.listePieceAvailable = []
+        self.listePieces = []
         //Créer l'iterator
     }
 
     // On créer toutes les pièces du jeu
-    // On initialise listePieceAvailable avec toutes les pièces
+    // On initialise listePieces avec toutes les pièces
     // createPieces: Game -> Game
     mutating func createPieces() {
         var listePieces : [Piece] = []
@@ -186,7 +186,7 @@ public struct Game {
         piece16.column = nil
         listePieces.append(piece16)
 
-        self.listePieceAvailable = listePieces
+        self.listePieces = listePieces
     }
     
     // fonction au démarage du jeu, demande aux joueurs de choisir si ils jouent avec les règles simples(quarto sur ligne, colonne ou diagonale) ou complexes(simples plus quarto sur une carré de 4 cases)
@@ -231,18 +231,15 @@ public struct Game {
     // Pre: La pièce n'est pas encore posée sur le plateau, il reste des pièces à poser
     // Récupère la pièce choisie par le joueur et la donne à l'autre joueur afin qu'il la pose sur le plateau
     mutating func choosePiece() -> Piece {
-        print("\nLa liste des pièces actualisé :")
+        print("\nLa liste des pièces actualisée:")
         // affficher les pieces encore disponible
-        for i in 0...self.listePieceAvailable.count-1 {
-            if(self.listePieceAvailable[i] == nil) {
+        for i in 0...self.listePieces.count-1 {
+            if(self.listePieces[i] == nil) {
                 print("Pièce \(i+1): Pièce déjà placée")
             } else {
-                print("Pièce \(i+1): \(self.listePieceAvailable[i])")
+                print("Pièce \(i+1): \(self.listePieces[i])")
             }
         }
-
-        // VERIFIER QUE LA PIECE EST ENCORE DISPO
-
 
         // Demander et récupérer la pièce choisie
         var correctInformation: Bool = false
@@ -250,10 +247,17 @@ public struct Game {
             print("\nDonner le numéro de la pièce choisie:")
             if let numString: String = readLine() {
                 let num: Int = Int(numString) ?? 20
-                if 1 <= num && num <= self.listePieceAvailable.count {
-                    correctInformation = true
-                    let pieceChoisie: Piece = self.listePieceAvailable[num-1]!
-                    return pieceChoisie
+
+                // Vérifier que le numéro est bien dans le tableau
+                if 1 <= num && num <= self.listePieces.count {
+                    // Vérifier que le numéro n'appartient pas à une pièce déjà placée
+                    if(self.listePieces[num-1] != nil) {
+                        correctInformation = true
+                        let pieceChoisie: Piece = self.listePieces[num-1]!
+                        return pieceChoisie
+                    } else {
+                        print("\nCette pièce est déjà placée sur le plateau.")
+                    }
                 }
             }
         }
@@ -302,12 +306,12 @@ public struct Game {
                     pieceChoisie.column = j
                     // On enlève la pièce de la liste des pièces disponibles
                     // Ainsi on récupère la position 
-                    print(self.listePieceAvailable)
+                    print(self.listePieces)
                     print("\n")
-                    self.listePieceAvailable.remove(at: 0)
-                    self.listePieceAvailable.insert(nil, at: 0)
+                    self.listePieces.remove(at: 0)
+                    self.listePieces.insert(nil, at: 0)
 
-                    print(self.listePieceAvailable)
+                    print(self.listePieces)
                     piecePose = true
                 }
                 j += 1

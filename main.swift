@@ -68,22 +68,22 @@ repeat {
     }
 
     if game.tourJ1() {
-        print("\n\(j1) choisis une pièce :")
+        print("\n\(j1) choisis une pièce:")
     }
     else {
-        print("\n\(j2) choisis une pièce :")
+        print("\n\(j2) choisis une pièce:")
     }
     var pieceChoisie: Piece = game.choosePiece()
 
     if game.tourJ1(){
-        print("\(j2) choisis où poser la pièce : \n")
+        print("\(j2) choisis où poser la pièce: \n")
     }
     else {
-        print("\(j1) choisis où poser la pièce : \n")
+        print("\(j1) choisis où poser la pièce: \n")
     }
     
     piecePose = game.setPieceAt(pieceChoisie: &pieceChoisie)
-    print("La pièce posé est : \(piecePose)\n")
+    print("La pièce posé est: \(piecePose)\n")
 
     print("On inverse les rôles des joueurs !\n")
     game.changePlayer()    
