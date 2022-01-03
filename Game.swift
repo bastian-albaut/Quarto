@@ -280,7 +280,7 @@ public struct Game {
                     y = Int(numString2) ?? 20
 
                     // On vérifie que la position indiqué est bien sur le plateau et ne contient pas déjà une pièce
-                    if 0<=x && x<=4 && 0<=y && y<=4 {
+                    if 0<=x && x<=3 && 0<=y && y<=3 {
                         if self.grid[x][y] == nil{
                             correctInformation = true
                         } else {
@@ -305,6 +305,11 @@ public struct Game {
                     // On modifie les attributs de position de la pièce
                     pieceChoisie.line = i
                     pieceChoisie.column = j
+
+                    print(pieceChoisie.color)
+                    print(pieceChoisie.heigh)
+                    print(pieceChoisie.filling)
+                    print(pieceChoisie.shape)
 
                     // On enlève la pièce de la liste des pièces disponibles
                     if let index = self.listePieces.firstIndex(where: {$0!.color == pieceChoisie.color && $0!.heigh == pieceChoisie.heigh && $0!.filling == pieceChoisie.filling && $0!.shape == pieceChoisie.shape}) {
