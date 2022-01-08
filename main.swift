@@ -36,7 +36,7 @@ repeat {
                 stringLine += "|xxxxxxxxxxxxxxxxxxxxxxxxxx|"
             } else{
                 if p!.isWhite(){
-                    color = "blanc"
+                    color = "blanche"
                 }
                 else{
                     color = "noire"
@@ -83,9 +83,8 @@ repeat {
     }
     
     piecePose = game.setPieceAt(pieceChoisie: &pieceChoisie)
-
     game.changePlayer()
 
 } while !game.quarto(piecePose: piecePose) && game.pieceAvailable
 
-game.currentTour == "tourJ1" ? print("Le gagnant est J2") : print("Le gagnant est J1") 
+game.currentTour == "tourJ1" ? print("Le gagnant est \(j2)") : print("Le gagnant est \(j1)") 

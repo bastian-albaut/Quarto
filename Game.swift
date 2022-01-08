@@ -54,16 +54,16 @@ public struct Game {
         var piece2 = Piece()
         piece2.color = "blanche"
         piece2.heigh = "basse"
-        piece2.filling = "creuse"
-        piece2.shape = "ronde"
+        piece2.filling = "pleine"
+        piece2.shape = "carré"
         piece2.line = nil
         piece2.column = nil
         listePieces.append(piece2)
 
         var piece3 = Piece()
         piece3.color = "blanche"
-        piece3.heigh = "haute"
-        piece3.filling = "pleine"
+        piece3.heigh = "basse"
+        piece3.filling = "creuse"
         piece3.shape = "ronde"
         piece3.line = nil
         piece3.column = nil
@@ -71,26 +71,26 @@ public struct Game {
 
         var piece4 = Piece()
         piece4.color = "blanche"
-        piece4.heigh = "haute"
+        piece4.heigh = "basse"
         piece4.filling = "creuse"
-        piece4.shape = "ronde"
+        piece4.shape = "carré"
         piece4.line = nil
         piece4.column = nil
         listePieces.append(piece4)
 
         var piece5 = Piece()
         piece5.color = "blanche"
-        piece5.heigh = "basse"
+        piece5.heigh = "haute"
         piece5.filling = "pleine"
-        piece5.shape = "carré"
+        piece5.shape = "ronde"
         piece5.line = nil
         piece5.column = nil
         listePieces.append(piece5)
 
         var piece6 = Piece()
         piece6.color = "blanche"
-        piece6.heigh = "basse"
-        piece6.filling = "creuse"
+        piece6.heigh = "haute"
+        piece6.filling = "pleine"
         piece6.shape = "carré"
         piece6.line = nil
         piece6.column = nil
@@ -99,8 +99,8 @@ public struct Game {
         var piece7 = Piece()
         piece7.color = "blanche"
         piece7.heigh = "haute"
-        piece7.filling = "pleine"
-        piece7.shape = "carré"
+        piece7.filling = "creuse"
+        piece7.shape = "ronde"
         piece7.line = nil
         piece7.column = nil
         listePieces.append(piece7)
@@ -126,25 +126,25 @@ public struct Game {
         var piece10 = Piece()
         piece10.color = "noire"
         piece10.heigh = "basse"
-        piece10.filling = "creuse"
-        piece10.shape = "ronde"
+        piece10.filling = "pleine"
+        piece10.shape = "carré"
         piece10.line = nil
         piece10.column = nil
         listePieces.append(piece10)
 
         var piece11 = Piece()
         piece11.color = "noire"
-        piece11.heigh = "haute"
-        piece11.filling = "pleine"
-        piece11.shape = "ronde"
+        piece11.heigh = "basse"
+        piece11.filling = "creuse"
+        piece11.shape = "carré"
         piece11.line = nil
         piece11.column = nil
         listePieces.append(piece11)
 
         var piece12 = Piece()
         piece12.color = "noire"
-        piece12.heigh = "haute"
-        piece12.filling = "creuse"
+        piece12.heigh = "basse"
+        piece12.filling = "pleine"
         piece12.shape = "ronde"
         piece12.line = nil
         piece12.column = nil
@@ -152,16 +152,16 @@ public struct Game {
 
         var piece13 = Piece()
         piece13.color = "noire"
-        piece13.heigh = "basse"
-        piece13.filling = "pleine"
-        piece13.shape = "carré"
+        piece13.heigh = "haute"
+        piece13.filling = "creuse"
+        piece13.shape = "ronde"
         piece13.line = nil
         piece13.column = nil
         listePieces.append(piece13)
 
         var piece14 = Piece()
         piece14.color = "noire"
-        piece14.heigh = "basse"
+        piece14.heigh = "haute"
         piece14.filling = "creuse"
         piece14.shape = "carré"
         piece14.line = nil
@@ -172,7 +172,7 @@ public struct Game {
         piece15.color = "noire"
         piece15.heigh = "haute"
         piece15.filling = "pleine"
-        piece15.shape = "carré"
+        piece15.shape = "ronde"
         piece15.line = nil
         piece15.column = nil
         listePieces.append(piece15)
@@ -180,7 +180,7 @@ public struct Game {
         var piece16 = Piece()
         piece16.color = "noire"
         piece16.heigh = "haute"
-        piece16.filling = "creuse"
+        piece16.filling = "pleine"
         piece16.shape = "carré"
         piece16.line = nil
         piece16.column = nil
@@ -271,6 +271,8 @@ public struct Game {
 
                     // On vérifie que la position indiqué est bien sur le plateau et ne contient pas déjà une pièce
                     if 0<=x && x<=3 && 0<=y && y<=3 {
+                        print(x)
+                        print(y)
                         if self.grid[x][y] == nil{
                             correctInformation = true
                         } else {
@@ -291,11 +293,9 @@ public struct Game {
                 if i == x && j == y {
                     // On place la pièce
                     self.grid[i][j] = pieceChoisie
-
                     // On modifie les attributs de position de la pièce
                     pieceChoisie.line = i
                     pieceChoisie.column = j
-
                     // On enlève la pièce de la liste des pièces disponibles
                     if let index = self.listePieces.firstIndex(where: {$0.color == pieceChoisie.color && $0.heigh == pieceChoisie.heigh && $0.filling == pieceChoisie.filling && $0.shape == pieceChoisie.shape}) {
                         self.listePieces.remove(at: index)
@@ -307,7 +307,6 @@ public struct Game {
             j=0
             i += 1
         }
-            
       return pieceChoisie
     }
 
@@ -413,53 +412,49 @@ public struct Game {
     // quartoDiag: Game x Piece -> Bool
     // Post : Bool = true si quarto sur la diagonale, false sinon
     func quartoDiag(piecePose: Piece) -> Bool {       
-        var indexLine: Int = piecePose.line!
-        var indexColumn: Int = piecePose.line!
         var listePieces = [Piece]()
+        
+        var x: Int = 0
+        var y: Int = 0
+        var caseVideTrouve: Bool = false
+        var nbPieceDiag: Int = 0
 
-        // Il y a 2 diagonales, on va chacune les séparer en 2 pour diviser en 4 la récupération des pièces à analyser
-        // Diagonale haut gauche
-        while indexLine >= 0 || indexColumn >= 0 {
-            if(self.grid[indexLine][indexColumn] == nil) {
-                return false
+        // On regarde sur la première diagonale s'il y a un Quarto
+        while(x<4 && y<4 && !caseVideTrouve) {
+            if(self.grid[x][y] != nil) {
+                listePieces.append(self.grid[x][y]!)
+                nbPieceDiag+=1
+                x+=1
+                y+=1
             } else {
-                listePieces.append(self.grid[indexLine][indexColumn]!)
-                indexLine-=1
-                indexColumn-=1
+                // Il y a une case qui ne contient pas de pièce sur la diagonale
+                // Il n'y a donc pas de quarto sur cette diagonale
+                // Ainsi pas besoin de regarder les autres cases de la diagonale
+                // On supprime donc toutes pièces à vérifier de listePieces
+                caseVideTrouve = true
+                listePieces.removeAll()
             }
         }
 
-        // Diagonale bas droite
-        while indexLine <= 3 || indexColumn <= 3 {
-            if(self.grid[indexLine][indexColumn] == nil) {
-                return false 
-            } else {
-                listePieces.append(self.grid[indexLine][indexColumn]!)
-                indexLine+=1
-                indexColumn+=1
+        // On vérifie s'il y avait 4 pièces sur la diagonale
+        if nbPieceDiag != 4 {
+            // On regarde sur la deuxième diagonale s'il y a un Quarto
+            x = 0
+            y = 3
+            caseVideTrouve = false
+            nbPieceDiag = 0
+            while(x<4 && y>=0 && !caseVideTrouve) {
+                if(self.grid[x][y] != nil) {
+                    listePieces.append(self.grid[x][y]!)
+                    nbPieceDiag+=1
+                    x+=1
+                    y-=1
+                } else {
+                    // Il y a une case qui ne contient pas de pièce sur la diagonale
+                    return false
+                }
             }
-        }
 
-        // Diagonale bas gauche
-        while indexLine <= 3 || indexColumn >= 0 {
-            if (self.grid[indexLine][indexColumn] == nil) {
-                return false
-            } else {
-                listePieces.append(self.grid[indexLine][indexColumn]!)
-                indexLine+=1
-                indexColumn-=1
-            }
-        }
-
-        // Diagonale haut droite
-        while indexLine >= 0 || indexColumn <= 3 {
-            if(self.grid[indexLine][indexColumn] == nil) {
-                return false 
-            } else {
-                listePieces.append(self.grid[indexLine][indexColumn]!)
-                indexLine-=1
-                indexColumn+=1
-            }
         }
 
         // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
@@ -467,16 +462,16 @@ public struct Game {
         var quartoByHeigh: Bool = false
         var quartoByFilling: Bool = false
         var quartoByShape: Bool = false
-        if (piecePose.color == listePieces[0].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
+        if (listePieces[0].color == listePieces[1].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
             quartoByColor = true
         }
-        if (piecePose.heigh == listePieces[0].heigh) && (listePieces[1].heigh == listePieces[2].heigh) && (listePieces[2].heigh == listePieces[3].heigh) {
+        if (listePieces[0].heigh == listePieces[1].heigh) && (listePieces[1].heigh == listePieces[2].heigh) && (listePieces[2].heigh == listePieces[3].heigh) {
             quartoByHeigh = true
         }
-        if (piecePose.filling == listePieces[0].filling) && (listePieces[1].filling == listePieces[2].filling) && (listePieces[2].filling == listePieces[3].filling) {
+        if (listePieces[0].filling == listePieces[1].filling) && (listePieces[1].filling == listePieces[2].filling) && (listePieces[2].filling == listePieces[3].filling) {
             quartoByFilling = true
         }
-        if (piecePose.shape == listePieces[0].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
+        if (listePieces[0].shape == listePieces[1].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
             quartoByShape = true
         }
         return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape

@@ -9,29 +9,7 @@ public struct Piece {
     var line: Int? = 10
     var column: Int? = 10
 
-    // Création des pièces : 16 pièces :
-    //
-    // blanche basse pleine ronde
-    // blanche basse creuse ronde
-    // blanche haute pleine ronde
-    // blanche haute creuse ronde
-    // blanche basse pleine carré
-    // blanche basse creuse carré
-    // blanche haute pleine carré
-    // blanche haute creuse carré
-    //
-    // noire basse pleine ronde
-    // noire basse creuse ronde
-    // noire haute pleine ronde
-    // noire haute creuse ronde
-    // noire basse pleine carré
-    // noire basse creuse carré
-    // noire haute pleine carré
-    // noire haute creuse carré
-    //
     //init: -> Piece
-    //crée 16 pièces différentes
-
     init() {
       self.color = "blanche"
     }
