@@ -413,13 +413,20 @@ public struct Game {
     // Post : Bool = true si quarto sur la diagonale, false sinon
     func quartoDiag(piecePose: Piece) -> Bool {       
         var listePieces = [Piece]()
-        
         var x: Int = 0
         var y: Int = 0
         var caseVideTrouve: Bool = false
         var nbPieceDiag: Int = 0
+        var quartoByColor: Bool = false
+        var quartoByHeigh: Bool = false
+        var quartoByFilling: Bool = false
+        var quartoByShape: Bool = false
 
         // On regarde sur la première diagonale s'il y a un Quarto
+        // x - - - 
+        // - x - -
+        // - - x -
+        // - - - x
         while(x<4 && y<4 && !caseVideTrouve) {
             if(self.grid[x][y] != nil) {
                 listePieces.append(self.grid[x][y]!)
@@ -430,7 +437,8 @@ public struct Game {
                 // Il y a une case qui ne contient pas de pièce sur la diagonale
                 // Il n'y a donc pas de quarto sur cette diagonale
                 // Ainsi pas besoin de regarder les autres cases de la diagonale
-                // On supprime donc toutes pièces à vérifier de listePieces
+                // Mais il faut vérifier la seconde diagonale :
+                // Donc on supprime toutes pièces à vérifier de listePieces
                 caseVideTrouve = true
                 listePieces.removeAll()
             }
@@ -439,10 +447,6 @@ public struct Game {
         // On vérifie s'il y avait 4 pièces sur la diagonale
         if nbPieceDiag == 4 {
             // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
-            var quartoByColor: Bool = false
-            var quartoByHeigh: Bool = false
-            var quartoByFilling: Bool = false
-            var quartoByShape: Bool = false
             if (listePieces[0].color == listePieces[1].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
                 quartoByColor = true
             }
@@ -455,10 +459,17 @@ public struct Game {
             if (listePieces[0].shape == listePieces[1].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
                 quartoByShape = true
             }
-            return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape
+            // Si il y a un quarto dans la diagonale1 : Pas besoin de vérifier l'autre diagonale
+            if quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape {
+                return true
+            }
         } 
         else {
             // On regarde sur la deuxième diagonale s'il y a un Quarto
+            // - - - x
+            // - - x -
+            // - x - -
+            // x - - -
             x = 0
             y = 3
             caseVideTrouve = false
@@ -489,6 +500,7 @@ public struct Game {
             }
             return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape
         }
+        return false
     }
 
     // vérifie s'il y a un quarto (ou non) dans un carré après la pose d'une pièce
@@ -497,8 +509,8 @@ public struct Game {
     func quartoCarre(piecePose: Piece) -> Bool {
         // On récupère dans un tableau toutes les pièces à analyser
         var listePieces = [Piece]()
-        var x: Int = piecePose.line
-        var y: Int = piecePose.column
+        var x: Int = piecePose.line!
+        var y: Int = piecePose.column!
 
         // On vérifie si il y a quarto dans le carré 1
         if(self.grid[0][0] == nil || self.grid[0][1] == nil || self.grid[1][0] == nil || self.grid[1][1] == nil) {

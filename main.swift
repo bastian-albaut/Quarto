@@ -87,4 +87,4 @@ repeat {
 
 } while !game.quarto(piecePose: piecePose) && game.pieceAvailable
 
-game.currentTour == "tourJ1" ? print("Le gagnant est \(j2)") : print("Le gagnant est \(j1)") 
+game.currentTour == "tourJ2" ? print("Le gagnant est \(j2)") : print("Le gagnant est \(j1)") 
