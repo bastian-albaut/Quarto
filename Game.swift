@@ -271,8 +271,6 @@ public struct Game {
 
                     // On vérifie que la position indiqué est bien sur le plateau et ne contient pas déjà une pièce
                     if 0<=x && x<=3 && 0<=y && y<=3 {
-                        print(x)
-                        print(y)
                         if self.grid[x][y] == nil{
                             correctInformation = true
                         } else {
