@@ -507,73 +507,179 @@ public struct Game {
     func quartoCarre(piecePose: Piece) -> Bool {
         // On récupère dans un tableau toutes les pièces à analyser
         var listePieces = [Piece]()
-        var x: Int = piecePose.line!
-        var y: Int = piecePose.column!
+        var carre1verif: Bool = false
+        var carre2verif: Bool = false
+        var carre3verif: Bool = false
+        var carre4verif: Bool = false
+        var carre5verif: Bool = false
+        var carre6verif: Bool = false
+        var carre7verif: Bool = false
+        var carre8verif: Bool = false
+        var carre9verif: Bool = false
+        var quartoTrouve: Bool = false
+        var quatrepieceTrouve: Bool = false
 
-        // On vérifie si il y a quarto dans le carré 1
-        if(self.grid[0][0] == nil || self.grid[0][1] == nil || self.grid[1][0] == nil || self.grid[1][1] == nil) {
-            return false 
-        } else {
-            listePieces.append(self.grid[0][0]!)
-            listePieces.append(self.grid[0][1]!)
-            listePieces.append(self.grid[1][0]!)
-            listePieces.append(self.grid[1][1]!)
-        }
+        while !quartoTrouve {
+            // On vérifie si il y a quarto dans le carré 1
+            // x x - -
+            // x x - -
+            // - - - -
+            // - - - -
+            if(!carre1verif && self.grid[0][0] != nil && self.grid[0][1] != nil && self.grid[1][0] != nil && self.grid[1][1] != nil) {
+                carre1verif = true
+                listePieces.append(self.grid[0][0]!)
+                listePieces.append(self.grid[0][1]!)
+                listePieces.append(self.grid[1][0]!)
+                listePieces.append(self.grid[1][1]!)
+                quatrepieceTrouve = true // Pour ne pas vérifier tous les autres carrés
+            }
 
-        // On vérifie si il y a quarto dans le carré en haut à droite
-        if piecePose.line! <= 1 && piecePose.column! >= 2 {
-            if(self.grid[0][2] == nil || self.grid[0][3] == nil || self.grid[1][2] == nil || self.grid[1][3] == nil) {
-                return false 
-            } else {
+            // On vérifie si il y a quarto dans le carré 2
+            // - - x x
+            // - - x x
+            // - - - -
+            // - - - -
+            if(!quatrepieceTrouve && !carre2verif && self.grid[0][2] != nil && self.grid[0][3] != nil && self.grid[1][2] != nil && self.grid[1][3] != nil) {
+                carre2verif = true
                 listePieces.append(self.grid[0][2]!)
                 listePieces.append(self.grid[0][3]!)
                 listePieces.append(self.grid[1][2]!)
                 listePieces.append(self.grid[1][3]!)
+                quatrepieceTrouve = true // Pour ne pas vérifier tous les autres carrés
             }
-        }
 
-        // On vérifie si il y a quarto dans le carré en bas à gauche
-        if piecePose.line! <= 1 && piecePose.column! >= 2 {
-            if(self.grid[2][0] == nil || self.grid[2][1] == nil || self.grid[3][0] == nil || self.grid[3][1] == nil) {
-                return false 
-            } else {
+            // On vérifie si il y a quarto dans le carré 3
+            // - - - -
+            // - - - -
+            // x x - -
+            // x x - -
+            if(!quatrepieceTrouve && !carre3verif && self.grid[2][0] != nil && self.grid[2][1] != nil && self.grid[3][0] != nil && self.grid[3][1] != nil) {
+                carre3verif = true
                 listePieces.append(self.grid[2][0]!)
                 listePieces.append(self.grid[2][1]!)
                 listePieces.append(self.grid[3][0]!)
                 listePieces.append(self.grid[3][1]!)
-            }           
-        }
+                quatrepieceTrouve = true // Pour ne pas vérifier tous les autres carrés
+            }
 
-        // On vérifie si il y a quarto dans le carré en bas à droite
-        if piecePose.line! >= 2 && piecePose.column! >= 2 {
-            if(self.grid[2][2] == nil || self.grid[2][3] == nil || self.grid[3][2] == nil || self.grid[3][3] == nil) {
-                return false 
-            } else {
+            // On vérifie si il y a quarto dans le carré 4
+            // - - - -
+            // - - - -
+            // - - x x
+            // - - x x
+            if(!quatrepieceTrouve && !carre4verif && self.grid[0][2] != nil && self.grid[0][3] != nil && self.grid[1][2] != nil && self.grid[1][3] != nil) {
+                carre4verif = true
+                listePieces.append(self.grid[0][2]!)
+                listePieces.append(self.grid[0][3]!)
+                listePieces.append(self.grid[1][2]!)
+                listePieces.append(self.grid[1][3]!)
+                quatrepieceTrouve = true // Pour ne pas vérifier tous les autres carrés
+            }
+
+            // On vérifie si il y a quarto dans le carré 5
+            // - x x -
+            // - x x -
+            // - - - -
+            // - - - -
+            if(!quatrepieceTrouve && !carre5verif && self.grid[0][1] != nil && self.grid[0][2] != nil && self.grid[1][1] != nil && self.grid[1][2] != nil) {
+                carre5verif = true
+                listePieces.append(self.grid[0][1]!)
+                listePieces.append(self.grid[0][2]!)
+                listePieces.append(self.grid[1][1]!)
+                listePieces.append(self.grid[1][2]!)
+                quatrepieceTrouve = true // Pour ne pas vérifier tous les autres carrés
+            }
+
+            // On vérifie si il y a quarto dans le carré 6
+            // - - - -
+            // - - - -
+            // - x x -
+            // - x x -
+            if(!quatrepieceTrouve && !carre6verif && self.grid[2][1] != nil && self.grid[2][2] != nil && self.grid[3][1] != nil && self.grid[3][2] != nil) {
+                carre6verif = true
+                listePieces.append(self.grid[2][1]!)
+                listePieces.append(self.grid[2][2]!)
+                listePieces.append(self.grid[3][1]!)
+                listePieces.append(self.grid[3][2]!)
+                quatrepieceTrouve = true // Pour ne pas vérifier tous les autres carrés
+            }
+
+            // On vérifie si il y a quarto dans le carré 7
+            // - - - -
+            // x x - -
+            // x x - -
+            // - - - -
+            if(!quatrepieceTrouve && !carre7verif && self.grid[1][0] != nil && self.grid[1][1] != nil && self.grid[2][0] != nil && self.grid[2][1] != nil) {
+                carre7verif = true
+                listePieces.append(self.grid[1][0]!)
+                listePieces.append(self.grid[1][1]!)
+                listePieces.append(self.grid[2][0]!)
+                listePieces.append(self.grid[2][1]!)
+                quatrepieceTrouve = true // Pour ne pas vérifier tous les autres carrés
+            }
+
+            // On vérifie si il y a quarto dans le carré 8
+            // - - - -
+            // - - x x
+            // - - x x
+            // - - - -
+            if(!quatrepieceTrouve && !carre8verif && self.grid[1][2] != nil && self.grid[1][3] != nil && self.grid[2][2] != nil && self.grid[2][3] != nil) {
+                carre8verif = true
+                listePieces.append(self.grid[1][2]!)
+                listePieces.append(self.grid[1][3]!)
                 listePieces.append(self.grid[2][2]!)
                 listePieces.append(self.grid[2][3]!)
-                listePieces.append(self.grid[3][2]!)
-                listePieces.append(self.grid[3][3]!)
-            }  
-        }
+                quatrepieceTrouve = true // Pour ne pas vérifier le dernier carré
+            }
 
-        // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
-        var quartoByColor: Bool = false
-        var quartoByHeigh: Bool = false
-        var quartoByFilling: Bool = false
-        var quartoByShape: Bool = false
-        if (piecePose.color == listePieces[0].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
-            quartoByColor = true
+            // On vérifie si il y a quarto dans le carré 9
+            // - - - -
+            // - x x -
+            // - x x -
+            // - - - -
+            if(!quatrepieceTrouve && !carre9verif && self.grid[1][1] != nil && self.grid[1][2] != nil && self.grid[2][1] != nil && self.grid[2][2] != nil) {
+                carre9verif = true
+                listePieces.append(self.grid[1][1]!)
+                listePieces.append(self.grid[1][2]!)
+                listePieces.append(self.grid[2][1]!)
+                listePieces.append(self.grid[2][2]!)
+            }
+
+            if(listePieces.isEmpty) {
+                // Aucun carré ne contient 4 pièces donc il n'y a pas de quarto
+                return false
+            } else {
+                // On vérifie pour chaque attribut de pièce la possibilité d'un quarto
+                var quartoByColor: Bool = false
+                var quartoByHeigh: Bool = false
+                var quartoByFilling: Bool = false
+                var quartoByShape: Bool = false
+                if (piecePose.color == listePieces[0].color) && (listePieces[1].color == listePieces[2].color) && (listePieces[2].color == listePieces[3].color) {
+                    quartoByColor = true
+                }
+                if (piecePose.heigh == listePieces[0].heigh) && (listePieces[1].heigh == listePieces[2].heigh) && (listePieces[2].heigh == listePieces[3].heigh) {
+                    quartoByHeigh = true
+                }
+                if (piecePose.filling == listePieces[0].filling) && (listePieces[1].filling == listePieces[2].filling) && (listePieces[2].filling == listePieces[3].filling) {
+                    quartoByFilling = true
+                }
+                if (piecePose.shape == listePieces[0].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
+                    quartoByShape = true
+                }
+                if quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape {
+                    quartoTrouve = true
+                } else {
+                    // on doit vérifier les autres carrés
+                    listePieces.removeAll()
+                    quatrepieceTrouve = false
+                }
+            }
         }
-        if (piecePose.heigh == listePieces[0].heigh) && (listePieces[1].heigh == listePieces[2].heigh) && (listePieces[2].heigh == listePieces[3].heigh) {
-            quartoByHeigh = true
+        if quartoTrouve {
+            return true
+        } else {
+            return false
         }
-        if (piecePose.filling == listePieces[0].filling) && (listePieces[1].filling == listePieces[2].filling) && (listePieces[2].filling == listePieces[3].filling) {
-            quartoByFilling = true
-        }
-        if (piecePose.shape == listePieces[0].shape) && (listePieces[1].shape == listePieces[2].shape) && (listePieces[2].shape == listePieces[3].shape) {
-            quartoByShape = true
-        }
-        return quartoByColor || quartoByHeigh || quartoByFilling || quartoByShape
     }
 }
 
