@@ -1,0 +1,28 @@
+Comment exécuter le projet :
+
+swiftc -c main.swift Game.swift Piece.swift -module-name Quarto
+swiftc -emit-executable main.o Game.o Piece.o -o Quarto
+./Quarto
+
+--------------------------------------------------------------------------
+
+Remarques sur les spécifications fonctionnelles:
+
+De grosses fonctionnalités qui auraient pû être séparées en plusieurs fonctions
+
+    La fonction setPieceAt() qui permet de poser une pièce sur le plateau aurait pû être séparé en :
+        - Une fonction permettant de savoir si la pièce n'est pas déjà placée sur le plateau
+        - Une fonction pour savoir si la position indiquée ne contient pas déjà une pièce
+        - une fonction permettant de placer effectivement la pièce
+    
+    Les fonctions QuartoLigne(), QuartoCol(), QuartoDiag() et quartoCarre()
+    auraient pû faire appel à une fonction générale verifQuarto() prenant en paramètre 
+    la liste des pièces à vérifier (soit 4 pièces), permettant de renvoyer un booléen 
+    indiquant s'il y a un quarto ou non dans ces pièces.
+
+
+La création des 16 pièces était dans l'init de Piece mais on a pas réussi à lier les instances de pièces initalisées 
+dans notre structure de données. On a choisit dans notre structure de données créer un tableau listePieces contenant 
+toutes les pièces encore disponibles à être posées. On a pas réussi à ajouter les pièces dans ce tableau à partir
+de l'init de Piece. Ainsi on a créer une fonction createPieces() dans Game permettant de créer les pièces et les ajouter
+au tableau.
